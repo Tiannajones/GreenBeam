@@ -1,10 +1,12 @@
 # GreenBeam
 Capstone Project 2022
 
-Development Server
+# Development Server
 ./manage.py runserver
 or
 python manage.py runserver
+or 
+py manage.py runserver on Windows
 
 # Create and activate virtual environment
 pip install pipenv
@@ -23,3 +25,7 @@ use py -m pip install -r requirements.txt
 
 # Run Django dev server
 ./manage.py runserver
+
+# For updating requirements.txt
+ pip freeze > requirements.txt
+
