@@ -7,7 +7,7 @@ from django.db import models
 ## typical class defining a model, deirved from the Model class
 class User(models.Model):
     
-    #fields 
+    #Fields 
     # models.CharField means this field will contain strings of alphanumeric chars. 
     # help_text provides a text label to display help users know what value to rpovide when this value is to be entered by a user via HTML form
     my_field_name = models.CharField(max_length=20, help_text='Enter field documentation') 
