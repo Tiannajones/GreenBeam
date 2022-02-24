@@ -29,3 +29,6 @@ use py -m pip install -r requirements.txt
 # For updating requirements.txt
  pip freeze > requirements.txt
 
+# For connecting to Cloud SQL Proxy
+./cloud_sql_proxy -instances "greenbeam:us-central1:greenbeam-db1"=tcp:3306
+
