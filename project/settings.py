@@ -83,10 +83,10 @@ if os.getenv('GAE_APPLICATION', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/greenbeam:us-central1:greenbeam-db1',
-            'USER': 'GB-admin',
-            'PASSWORD': 'Pumpkin22!',
-            'NAME': 'greenbeam-db1',
+            'HOST': '/cloudsql/greenbeam-342520:us-central1:greenbeam-db1',
+            'USER': config("DB_USER"),
+            'PASSWORD': config("DB_PASS"),
+            'NAME': 'gb-database',
         }
     }
 else:
@@ -99,9 +99,9 @@ else:
             'ENGINE': 'django.db.backends.mysql',
             'HOST': '127.0.0.1',
             'PORT': '3306',
-            'NAME': 'greenbeam-db1',
-            'USER': 'GB-admin',
-            'PASSWORD': 'Pumpkin22!',
+            'NAME': 'gb-database',
+            'USER': config("DB_USER"),
+            'PASSWORD': config("DB_PASS"),
         }
     }
 # [END db_setup]
