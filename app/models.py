@@ -27,6 +27,49 @@ def _lazy_re_compile(regex, flags=0):
     return SimpleLazyObject(_compile) 
 
 
+class RegexValidator:
+    regex = ''
+    message = _('Enter a valid value ')
+    code = 'invalid'
+    inverse_match = False 
+    flags = 0 
+
+    def __init__(self, regex = None, message =None, code =None, inverse_match = None, flags =None):
+        if regex is not None:
+                self.regex = regex
+        if message is not None:
+            self.message = message
+        if code is not None:
+            self.code = code
+        if inverse_match is not None:
+            self.inverse_match = inverse_match
+        if flags is not None:
+            self.flags = flags
+        if self.flags and not isinstance(self.regex, str):
+            raise TypeError("If the flags are set, regex must be a regular expression string.")
+
+        self.regex = _lazy_re_compile(self.regex, self.flags)
+
+        def __call__(self, value):
+            """ 
+            validate that the input contains or does not contain, if inverse match is True a match for the regular expression
+            """
+            regex_matches = self.regex.search(str(value))
+            invalid_input = regex_matches if self.inverse_match else not regex_matches
+            if invalid_input:
+                raise ValidationError(self.message, code=self.code)
+
+        def __eq__(self, other):
+            return (
+                isinstance(other, RegexValidator) and
+                self.regex.pattern == other.regex.pattern and
+                self.regex.flags == other.regex.flags and
+                (self.message == other.message) and
+                (self.code == other.code) and
+                (self.inverse_match == other.inverse_match)
+        )
+
+
 # Create your models here.
 #https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models -- using this site to help 
 
@@ -103,31 +146,6 @@ class EmailValidator(message=None, code=None,allowlist=None):
                     return
             raise ValidationError(self.message, code=self.code)  
         
-    def validate_ipv4_address(value):
-        try:
-            ipaddress.IPv4Address(value)
-        except ValueError:
-            raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid')
-    
-    def validate_ipv6_address(value):
-        if not is_valid_ipv6_address(value):
-            raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid')
-    
-    def validate_ipv46_address(value):
-        try:
-            validate_ipv4_address(value)
-        except ValidationError:
-            try:
-                validate_ipv6_address(value)
-            except ValidationError:
-                raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code= 'invalid')
-    
-    ip_address_validator_map = {
-    'both': ([validate_ipv46_address], _('Enter a valid IPv4 or IPv6 address.')),
-    'ipv4': ([validate_ipv4_address], _('Enter a valid IPv4 address.')),
-    'ipv6': ([validate_ipv6_address], _('Enter a valid IPv6 address.')),
-
-    }
     def validate_domain_part(self,domain_part):
         if self.domain_regex.match(domain_part):
             return True 
@@ -142,9 +160,63 @@ class EmailValidator(message=None, code=None,allowlist=None):
             except ValidationError:
                 pass 
             return False
-    
 
-    
+
+    def __eq__(self,other):
+        return(
+            isinstance(other,EmailValidator) and
+            (self.domain_allowlist == other.domain_allowlist) and
+            (self.message == other.message) and
+            (self.code == other.code)
+        ) 
+    validate_email = EmailValidator()
+
+    slug_re = _lazy_re_compile(r'^[-a-zA-Z0-9_]+\Z')
+    validate_slug = RegexValidator(
+        slug_re,
+    # Translators: "letters" means latin letters: a-z and A-Z.
+        _('Enter a valid “slug” consisting of letters, numbers, underscores or hyphens.'),
+    'invalid'
+)
+
+    slug_unicode_re = _lazy_re_compile(r'^[-\w]+\Z')
+    validate_unicode_slug = RegexValidator(
+    slug_unicode_re,
+    _('Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or hyphens.'),
+    'invalid'
+)
+
+    def validate_ipv4_address(value):
+        try:
+            ipaddress.IPv4Address(value)
+        except ValueError:
+            raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid')
+
+
+
+    def validate_ipv6_address(value):
+        if not is_valid_ipv6_address(value):
+            raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid')
+
+
+
+    def validate_ipv46_address(value):
+        try:
+            validate_ipv4_address(value)
+        except ValidationError:
+            try:
+                validate_ipv6_address(value)
+            except ValidationError:
+                raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code='invalid')
+
+
+
+    ip_address_validator_map = {
+    'both': ([validate_ipv46_address], _('Enter a valid IPv4 or IPv6 address.')),
+    'ipv4': ([validate_ipv4_address], _('Enter a valid IPv4 address.')),
+    'ipv6': ([validate_ipv6_address], _('Enter a valid IPv6 address.')),
+}
+
 
 
     
