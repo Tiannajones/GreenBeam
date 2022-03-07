@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
+from django.core.validators import MaxValueValidator
 
 #All of this is from https://testdriven.io/blog/django-custom-user-model/
 
@@ -23,20 +24,22 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
     
 #Create table for the restaurant data or name Restuarants
-class YelpOwned(models.Model):
-    business_id = models.PositiveBigIntegerField(primary_key=1)
+class YelpRestaurant(models.Model):
+    business_id = models.PositiveBigIntegerField(primary_key=True)
     name = models.TextField
     description = models.TextField
     yelp_rating = models.TextField
-    phone_number = models.IntegerField(max_length=10)
-    price = models.IntegerField(max_length=3)
-    latitude = #figure out specific field
-    longitude = #figure out specific field
-    address = #figure out specific address and probably break this up into St number, street name, and city, state
-    zip_code = models.IntegerField(max_length=5)
-    image_url = #figure it out
-    yelp_url = #figure it out
+    phone_number = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
+    price = models.PositiveIntegerField()
+    latitude = models.DecimalField(max_digits=9, decimal_places=6) #https://stackoverflow.com/questions/30706799/which-model-field-to-use-in-django-to-store-longitude-and-latitude-values
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    address = models.TextField
+    zip_code = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
+    image_url = models.URLField(max_length=200)
+    yelp_url = models.URLField(max_length=200)
     
-#class WeOwn(models.Model):
+    def __str__(self):
+        return self.name
+    
     
     
