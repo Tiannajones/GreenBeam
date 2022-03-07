@@ -1,4 +1,5 @@
 from audioop import reverse
+from ipaddress import ip_address
 from django.db import models
 from django.core.exceptions import ValidationError   #https://stackoverflow.com/questions/3217682/checking-validity-of-email-in-django-python
 from django.core.validators import validate_email
@@ -6,6 +7,24 @@ from django.utils.deconstruct import deconstructible
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext_lazy as _, ngettext_lazy 
 import re 
+from django.utils.encoding import punycode
+from django.utils.ipv6 import is_valid_ipv6_address
+import ipaddress
+
+
+
+
+
+def _lazy_re_compile(regex, flags=0):
+    #lazy compile a regex with flags 
+    def _compile():
+        #compile the regex if it was not passed precompile 
+        if isinstance(regex,str):
+            return re.compile(regex,flags)
+        else:
+            assert not flags, "flags must be empty if regex is passed pre-compiled"
+            return regex
+    return SimpleLazyObject(_compile) 
 
 
 # Create your models here.
@@ -56,14 +75,76 @@ class EmailValidator(message=None, code=None,allowlist=None):
     domain_allowlist = ['localhost']
 
     # https://docs.djangoproject.com/en/3.0/_modules/django/core/validators/
-    def _init_(self, message=None, code=None, inverse_match=None, flags=None):
+    def _init_(self, message=None, code=None, allowlist = None):
         if message is not None:
             self.message = message
         if code is not None:
             self.code = code
-        if inverse_match is not None:
-            self.inverse_match = inverse_match 
-        if flags is not None:
-            self.flags = flags
+        if allowlist is not None:
+            self.domain_allowlist = allowlist 
+        
+    def _call_(self, value):
+        if not value or '@' not in value:
+            raise ValidationError(self.message, code=self.code)
+
+        user_part, domain_part = value.rsplit('@',1) 
+
+        if not self.user_regex.match(user_part): 
+            raise ValidationError
+
+        if (domain_part not in self.domain_allowlist and not self.validate_domain_part(domain_part)):
+          # Try for possible IDN domain-part
+            try:
+                domain_part = punycode(domain_part)
+            except UnicodeError:
+                pass
+            else:
+                if self.validate_domain_part(domain_part):
+                    return
+            raise ValidationError(self.message, code=self.code)  
+        
+    def validate_ipv4_address(value):
+        try:
+            ipaddress.IPv4Address(value)
+        except ValueError:
+            raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid')
+    
+    def validate_ipv6_address(value):
+        if not is_valid_ipv6_address(value):
+            raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid')
+    
+    def validate_ipv46_address(value):
+        try:
+            validate_ipv4_address(value)
+        except ValidationError:
+            try:
+                validate_ipv6_address(value)
+            except ValidationError:
+                raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code= 'invalid')
+    
+    ip_address_validator_map = {
+    'both': ([validate_ipv46_address], _('Enter a valid IPv4 or IPv6 address.')),
+    'ipv4': ([validate_ipv4_address], _('Enter a valid IPv4 address.')),
+    'ipv6': ([validate_ipv6_address], _('Enter a valid IPv6 address.')),
+
+    }
+    def validate_domain_part(self,domain_part):
+        if self.domain_regex.match(domain_part):
+            return True 
+
+        literal_match = self.literal_regex.match(domain_part)
+
+        if literal_match:
+            ip_address = literal_match.group(1)
+            try:
+                validate_ipv46_address(ip_address)
+                return True
+            except ValidationError:
+                pass 
+            return False
+    
+
+    
+
 
     
