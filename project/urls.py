@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -39,5 +39,6 @@ urlpatterns = [
   #for Swagger Docs
   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'), #so that its just the main application
   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-  
+  #for app urls
+  path('',include('app.urls')),
 ]

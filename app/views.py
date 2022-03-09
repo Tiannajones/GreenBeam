@@ -1,8 +1,16 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
 
+from django.http import HttpResponse
+
+
+from rest_framework import viewsets
+from .serializers import YelpRestaurantSerializer
+from .models import YelpRestaurant
+
+
+#ModelViewSet handles GET and POST requests
+class YelpRestaurantViewSet(viewsets.ModelViewSet):
+    queryset = YelpRestaurant.objects.all().order_by('business_id')
+    serializer_class = YelpRestaurantSerializer
 
 
 # Create your views here.
