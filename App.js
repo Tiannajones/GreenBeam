@@ -137,29 +137,29 @@ const RootStackScreen = () => (
   //   return <Splash />;
   // }
 
-export default function App() {
-  return (
-    //<AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        console.log("Test 1")
-        <AuthStackScreen/>
-      </NavigationContainer>
-    //</AuthContext.Provider>
-  );
 // export default function App() {
 //   return (
-//     <View style={styles.container}>
-//       <Text>Jake</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
+//     //<AuthContext.Provider value={authContext}>
+//       <NavigationContainer>
+//         console.log("Test 1")
+//         <AuthStackScreen/>
+//       </NavigationContainer>
+    //</AuthContext.Provider>
+  // );
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>Jake</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
