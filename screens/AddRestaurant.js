@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 // let btn = document.createElement("button");
-// btn.innerHTML = "Create A New Account";
+// btn.innerHTML = "Add Restaurant";
 
 export default function App() {
   return (
