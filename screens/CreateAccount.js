@@ -1,15 +1,53 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { TouchableHighlight , StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
 
 import React from 'react';
 
-// let btn = document.createElement("button");
-// btn.innerHTML = "Create A New Account";
+export default function CreateAccountLoad({ navigation }) {
+    const [Username, onUserName] = React.useState();
+    const [Password, onPassword ] = React.useState();
+    const [Email , onEmail] =React.useState();
+    const [Phone , onPhone] =React.useState();
 
-export default function App() {
+
+    const CreateAccountAttemp = (Username, Password, Email) =>{
+      if(Boolean(Username) && Boolean(Password) && Boolean(Email)){ //Must have a username, pasword and email defined  
+      console.log(Username);
+      console.log(Password);
+      navigation.push("HomeDrawer");
+      }else{
+        console.log("done")
+      }
+      
+    }
   return (
-    <View style={styles.container}>
-      <Text>Account</Text>
-      <Text>document.body.appendChild(btn)</Text>
+      <View style={styles.container}> 
+      
+     <TextInput
+        style={styles.input}
+        onChangeText={onEmail}
+        value={Email}
+        placeholder="Email"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onPassword}
+        value={Password}
+        placeholder="Password"
+      />
+      
+       <TextInput
+        style={styles.input}
+        onChangeText={onPhone}
+        value={Phone}
+        keyboardType="numeric"
+        placeholder="Phone number"
+      />
+
+    <TouchableHighlight onPress={() => CreateAccountAttemp(Username, Password, Email)} style={styles.button}>
+            <Text style = {styles.text}>
+               Create Account 
+            </Text>
+      </TouchableHighlight>    
     </View>
   );
 }
@@ -17,8 +55,30 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#118c34',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+   button: {
+    backgroundColor: "#fff",
+     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    margin: 8,
+    height: 40,
+    width: 200,
+  },
+  text: {
+     fontSize: 20,
+      borderColor: 'black',
+  },
+  input: {
+    height: 40,
+    width: 200,
+    margin: 8,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: "#fff",
+    textAlign: 'center'
   },
 });

@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import React from 'react';
 
-export default function App() {
+export default function CreateAccountLoad() {
   return (
     <View style={styles.container}>
-      <Text>New problem </Text>
+      <Text>Favorites </Text>
     </View>
   );
 }
