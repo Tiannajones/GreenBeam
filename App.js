@@ -7,11 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { StatusBar } from 'expo-status-bar';
-<<<<<<< Updated upstream
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { useFonts } from 'expo-font';
-
-=======
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem  } from "@react-navigation/drawer";
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -119,34 +114,16 @@ const AuthStackScreen = () => (
     />
   </AuthStack.Navigator>
 );
->>>>>>> Stashed changes
 
 export default function App() {
- //const [number, onChangeNumber] = React.useState(null);
+  const [number, onChangeNumber] = React.useState(null);
   
   return (
-<<<<<<< Updated upstream
-    <SafeAreaView style={LoginBackground.container}>
-     <Text adjustsFontSizeToFit = {true} style={{ fontFamily: 'Inter-Black', fontSize: 60, color: '#beed72', justifyContent: 'center', alignItems: 'center'
-, textAlign: 'center' }}>GreenBeam</Text>
-      {/*
-      <TextInput
-        style={LoginInput.input}
-        onChangeText={onChangeNumber}
-        placeholder="useless placeholder"
-        multiline = {false}
-        keyboardType="email-address"
-      />
-      */}
-      <StatusBar style="auto" />
-    </SafeAreaView>
-=======
     //<AuthContext.Provider value={authContext}>r
         <NavigationContainer>
           <AuthStackScreen/>
         </NavigationContainer>         
           //</AuthContext.Provider>
->>>>>>> Stashed changes
   );
 };
 //commented out but may be useful for login reqirements 
@@ -207,25 +184,6 @@ export default function App() {
   //   }, 1000);
   // }, []);
 
-<<<<<<< Updated upstream
-const LoginBackground = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#39ab1a',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-});
-const LoginInput = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
-=======
   // if (isLoading) {
   //   return <Splash />;
   // }
->>>>>>> Stashed changes
