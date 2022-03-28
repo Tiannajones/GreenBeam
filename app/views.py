@@ -1,4 +1,3 @@
-from ast import Delete
 from rest_framework import viewsets
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
@@ -31,13 +30,13 @@ def home_view(request):
 #view that adds all the restaurants in Austin at the beginning of the day to the models
 @api_view()
 @permission_classes([AllowAny])
-def add_all_restaurants_austin(request):
+def add_all_restaurants_to_model(request):
   if request.method == 'GET':
     daily.populateData()
     return Response({'message':'we received your request'})
   
 #view that deletes all the content in the YelpRestaurant Model
-#make sure that it is an admin user
+#make sure that it is an admin user (need to do)
 @api_view()
 @permission_classes([AllowAny])
 def delete_all_restaurants_in_model(request):
