@@ -20,10 +20,6 @@ def restaurants_in_radius(latitude,longitude,radius,amount,offset):
   response = requests.get(url = ENDPOINT, params = PARAMS, headers = HEADERS)
   #Converts JSON string to a dictionary
   data = response.json()
-  #prints the name of each restaurant
-  #for res in data['businesses']:
-  #  print(res['name'])
-  
   #calls function again if the limit is not reached
   if(amount - offset != 50):
     restaurants_in_radius(latitude,longitude,radius,amount,offset+50)
@@ -31,3 +27,4 @@ def restaurants_in_radius(latitude,longitude,radius,amount,offset):
 
 #example function call using lat and long of Austin,TX    
 #restaurants_in_radius(30.267153,-97.743057,16093,200,0)
+

@@ -11,6 +11,8 @@ router.register(r'yelprestaurant', views.YelpRestaurantViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('home-view/', views.home_view, name='homeview')
+    path('home-view/', views.home_view, name='homeview'),
+    path('add-restaurants/', views.add_all_restaurants_austin, name='addrestaurants'),
+    path('delete-restaurants/', views.delete_all_restaurants_in_model, name='deleterestaurants')
     
 ]
