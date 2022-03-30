@@ -28,6 +28,7 @@ class YelpRestaurant(models.Model):
     business_id = models.CharField(primary_key=True,max_length=22)
     name = models.TextField(max_length=50, default='')
     yelp_rating = models.DecimalField(max_digits=2,decimal_places=1,null=True)
+    # yelp_categories = models.AutoField()
     phone_number = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)],null=True)
     #price = models.CharField(max_length=5, default='')
     latitude = models.DecimalField(max_digits=30, decimal_places=15) #https://stackoverflow.com/questions/30706799/which-model-field-to-use-in-django-to-store-longitude-and-latitude-values
@@ -40,6 +41,8 @@ class YelpRestaurant(models.Model):
     image_url = models.TextField(max_length=200,default='')
     yelp_url = models.TextField(max_length=500,default='')
     
+
+
     def __str__(self):
         return self.business_id
     

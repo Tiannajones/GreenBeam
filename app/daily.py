@@ -14,6 +14,7 @@ def populateData():
       res_id=res["id"]
       res_name=res["name"]
       res_rating=res["rating"]
+      res_categories=res["categories"]
       try:
         res_phone=int(res["phone"][2:]) #gets rid of '+1' and makes sure that there is a phone number for the restaurant
       except ValueError:
@@ -29,6 +30,7 @@ def populateData():
       res_imgurl=res["image_url"]
       res_yelpurl=res["url"]
       #deserializes all the yelp_data
+      # Come back and add the categories stuff
       serializer = YelpRestaurantSerializer(data={"business_id":res_id,"name":res_name,"yelp_rating":res_rating,"phone_number":res_phone,
                                                       "latitude":res_latitude,"longitude":res_longitude,"address":res_address,"city":res_city,
                                                       "state":res_state,"country":res_country,"zip_code":res_zip,"image_url":res_imgurl,
