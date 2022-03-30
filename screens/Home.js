@@ -5,34 +5,51 @@ import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from
 
 
 export default function HomeLoad({ navigation }) {
+  
+  const [Search, onSearch] = React.useState();
+  //const items = [...Array(100)].map((val, i) => `Item ${i}`);
+
+  const searchAttempt = (Search) => {
+    if(Boolean(Search)) {
+      console.log(Search);
+      navigation.push("HomeDrawer");
+    }
+  }
+
+  //const App = () => (
+    //<div className="Home.js">
+      //<div className="leftCol">
+        //leftCol
+      //</div>
+      
+      //<div className="centerCol">
+        //<span>List</span>
+        //<ul>
+          //{items.map((item, i) => (<li key={`item_${i}`}>{ item }</li>))}
+        //</ul>
+      //</div>
+      
+      //<div className="rightCol">
+        //rightCol
+      //</div>
+    //</div>
+  //);
+  
+  // ReactDOM.render(<App />, document.getElementById('react'));
+
   return (
     <View style={styles.container}> 
 
-    <SearchBar
-      placeholder="Search Contacts..."
-      placeholderTextColor="darkgrey"
-      containerStyle={style.container_style}
-      inputStyle={{ backgroundColor: "lightgrey", fontSize: 15 }}
-      inputContainerStyle={{
-        backgroundColor: "lightgrey",
-        height: 20,
-      }}
-      onChangeText={(searchTerm) => {
-        console.log(searchTerm);
-      }}
-        value={searchText}
-      /> 
-
     <TextInput
       style={styles.input}
-      onChangeText={onMap}
-      value={Map}
-      placeholder="Dynamic Map"
+      onChangeText={onSearch}
+      value={Search}
+      placeholder="Searching"
     />
 
-<TouchableHighlight onPress={() => mapDisplay(Map)} style={styles.button}>
+    <TouchableHighlight onPress={() => searchAttempt(Search)} style={styles.button}>
             <Text style = {styles.text}>
-               dynamicMap
+               Search
             </Text>
       </TouchableHighlight>
 
@@ -42,10 +59,66 @@ export default function HomeLoad({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+
+  // search bar
+
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
+   button: {
+    backgroundColor: "#FFFFFF",
+     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    margin: 8,
+    height: 40,
+    width: 200,
+  },
+  text: {
+     fontSize: 20,
+      borderColor: 'black',
+  },
+  input: {
+    height: 40,
+    width: 200,
+    margin: 8,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: "#fff",
+    textAlign: 'center'
+  },
+
+  // scrollable bar 
+
+  //scrollableContainer: {
+    //display: flex,
+    //flexDirection: row,
+    //height: 100,
+  //},
+  
+  //leftCol: {
+    //flex: 1,
+    //display: flex,
+    //justifyContent: center,
+    //alignItems: center,
+    //background: '#ddd',
+  //},
+  
+  //centerCol: {
+    //flex: 1,
+    //background: '#aaa',
+    //overFlow: scroll,
+  //},
+  
+  //rightCol: {
+    //flex: 1,
+    //display: flex,
+    //justifyContent: center,
+    //alignItems: center,
+    //background: '#e7e7e7',
+  //}
+
 });
