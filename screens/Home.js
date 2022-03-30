@@ -7,7 +7,7 @@ import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from
 export default function HomeLoad({ navigation }) {
   
   const [Search, onSearch] = React.useState();
-  //const items = [...Array(100)].map((val, i) => `Item ${i}`);
+  const items = [...Array(100)].map((val, i) => `Item ${i}`);
 
   const searchAttempt = (Search) => {
     if(Boolean(Search)) {
@@ -15,27 +15,27 @@ export default function HomeLoad({ navigation }) {
       navigation.push("HomeDrawer");
     }
   }
-
-  //const App = () => (
-    //<div className="Home.js">
-      //<div className="leftCol">
-        //leftCol
-      //</div>
-      
-      //<div className="centerCol">
-        //<span>List</span>
-        //<ul>
-          //{items.map((item, i) => (<li key={`item_${i}`}>{ item }</li>))}
-        //</ul>
-      //</div>
-      
-      //<div className="rightCol">
-        //rightCol
-      //</div>
-    //</div>
-  //);
   
-  // ReactDOM.render(<App />, document.getElementById('react'));
+  const App = () => (
+    <div className="Home.js">
+      <div className="leftCol">
+        leftCol
+      </div>
+      
+      <div className="centerCol">
+        <span>List</span>
+        <ul>
+          {items.map((item, i) => (<li key={`item_${i}`}>{ item }</li>))}
+        </ul>
+      </div>
+      
+      <div className="rightCol">
+        rightCol
+      </div>
+    </div>
+  );
+  
+   // ReactDOM.render(<App />, document.getElementById('react'));
 
   return (
     <View style={styles.container}> 
@@ -92,33 +92,33 @@ const styles = StyleSheet.create({
   },
 
   // scrollable bar 
-
-  //scrollableContainer: {
-    //display: flex,
-    //flexDirection: row,
-    //height: 100,
-  //},
+/*
+  scrollableContainer: {
+    display: flex,
+    flexDirection: row,
+    height: 100,
+  },
   
-  //leftCol: {
-    //flex: 1,
-    //display: flex,
-    //justifyContent: center,
-    //alignItems: center,
-    //background: '#ddd',
-  //},
+  leftCol: {
+    flex: 1,
+    display: flex,
+    justifyContent: center,
+    alignItems: center,
+    background: '#ddd',
+  },
   
-  //centerCol: {
-    //flex: 1,
-    //background: '#aaa',
-    //overFlow: scroll,
-  //},
+  centerCol: {
+    flex: 1,
+    background: '#aaa',
+    overFlow: scroll,
+  },
   
-  //rightCol: {
-    //flex: 1,
-    //display: flex,
-    //justifyContent: center,
-    //alignItems: center,
-    //background: '#e7e7e7',
-  //}
-
+  rightCol: {
+    flex: 1,
+    display: flex,
+    justifyContent: center,
+    alignItems: center,
+    background: '#e7e7e7',
+  }
+*/
 });
