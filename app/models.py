@@ -10,6 +10,7 @@ from django.core.validators import MaxValueValidator
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    username = None
     email = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
