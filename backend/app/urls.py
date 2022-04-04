@@ -4,7 +4,6 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'yelprestaurant', views.YelpRestaurantViewSet)
-#router.register(r'homeview',views.home_view, basename='HomeView')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

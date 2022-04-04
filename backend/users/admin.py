@@ -13,7 +13,7 @@ class UserAdminConfig(UserAdmin):
   search_fields = ('email', 'user_name','first_name',)
   list_filter = ('email','user_name','first_name','is_active','is_staff','is_owner')
   ordering = ('-start_date',)
-  list_display = ('email', 'user_name','first_name','is_active','is_staff','is_owner')
+  list_display = ('email','id', 'user_name','first_name','is_active','is_staff','is_owner')
   fieldsets = (
       (None, {"fields": ('email','user_name','first_name',)}),
       ('Permissions', {'fields': ('is_staff','is_active')}),
@@ -30,5 +30,3 @@ class UserAdminConfig(UserAdmin):
   
 
 admin.site.register(NewUser, UserAdminConfig)
-
-# Register your models here.

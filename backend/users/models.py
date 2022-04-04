@@ -31,7 +31,7 @@ class CustomAccountManager(BaseUserManager):
 class NewUser(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField(_('email address'), unique=True)
   user_name = models.CharField(max_length=150, unique=True)
-  first_name = models.CharField(max_length=150, unique=True)
+  first_name = models.CharField(max_length=150, unique=False)
   start_date = models.DateTimeField(default=timezone.now)
   is_staff = models.BooleanField(default=False)
   is_active = models.BooleanField(default=True) #if we wanted to verify email then would wait for them to verify it to set this to True
