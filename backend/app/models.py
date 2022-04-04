@@ -46,16 +46,18 @@ class YelpRestaurant(models.Model):
 class YelpCategories(models.Model):
     # BID = ForeignKey(YelpRestaurant)
     business_id = models.CharField(primary_key=True,max_length=22)
-    tag1  = models.BooleanField(default=False) #rename the tags to be more descriptive after deciding upon the Yelp Categories that we want them to contain
-    tag2  = models.BooleanField(default=False)
-    tag3  = models.BooleanField(default=False)
-    tag4  = models.BooleanField(default=False)
-    tag5  = models.BooleanField(default=False)
+    bakery  = models.BooleanField(default=False) #rename the tags to be more descriptive after deciding upon the Yelp Categories that we want them to contain
+    coffee_and_tea  = models.BooleanField(default=False)
+    desserts  = models.BooleanField(default=False)
+    donuts  = models.BooleanField(default=False)
+    juicebar  = models.BooleanField(default=False)
     tag6  = models.BooleanField(default=False)
     tag7  = models.BooleanField(default=False)
     tag8  = models.BooleanField(default=False)
     tag9  = models.BooleanField(default=False)
     tag10 = models.BooleanField(default=False)
+
+
 
     def __str__(self):
         return self.business_id
