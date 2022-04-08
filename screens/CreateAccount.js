@@ -1,21 +1,32 @@
 import { TouchableHighlight , StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
 
 import React from 'react';
+import axiosInstance from '../axios';
 
 export default function CreateAccountLoad({ navigation }) {
     const [Username, onUserName] = React.useState();
     const [Password, onPassword ] = React.useState();
-    const [Email , onEmail] =React.useState();
-    const [Phone , onPhone] =React.useState();
+    const [Email , onEmail] = React.useState();
+    const [FirstName , onFirstName] = React.useState();
 
 
     const CreateAccountAttemp = (Username, Password, Email) =>{
-      if(Boolean(Username) && Boolean(Password) && Boolean(Email)){ //Must have a username, pasword and email defined  
-      console.log(Username);
-      console.log(Password);
-      navigation.push("HomeDrawer");
+      if(Boolean(Email) && Boolean(Password) && Boolean(FirstName)){ //Must have a username, pasword and email defined  
+        console.log(Username);
+        console.log(Password);
+        axiosInstance
+          .post(`user/register/`, {
+            email:Email,
+            user_name:Username,
+            password:Password
+          })
+          .then((res) => {
+            navigation.push("HomeDrawer");
+            console.log(res);
+            console.log(res.data);
+          })
       }else{
-        console.log("done")
+        console.log("Please insert an email, username, and password")
       }
       
     }
@@ -30,19 +41,16 @@ export default function CreateAccountLoad({ navigation }) {
       />
       <TextInput
         style={styles.input}
+        onChangeText={onUserName}
+        value={Username}
+        placeholder="UserName"
+      />
+      <TextInput
+        style={styles.input}
         onChangeText={onPassword}
         value={Password}
         placeholder="Password"
       />
-      
-       <TextInput
-        style={styles.input}
-        onChangeText={onPhone}
-        value={Phone}
-        keyboardType="numeric"
-        placeholder="Phone number"
-      />
-
     <TouchableHighlight onPress={() => CreateAccountAttemp(Username, Password, Email)} style={styles.button}>
             <Text style = {styles.text}>
                Create Account 

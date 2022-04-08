@@ -44,7 +44,7 @@ parent.pop()
 
 
 //https://reactnative.dev/docs/alert
-//This creates an alert(a popup) which confirms if the user would loke to logout 
+//This creates an alert(a popup) which confirms if the user would like to logout 
 const createTwoButtonAlert = (parent) =>
     Alert.alert(
       "Log Out",
