@@ -1,5 +1,7 @@
 import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
 
+
+
 import React from 'react';
 const ValidityState= (Username, Password) =>{{
   let input = this.state.input; 
