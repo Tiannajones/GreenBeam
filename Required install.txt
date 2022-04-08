@@ -8,6 +8,7 @@ npm install @react-navigation/stack
 expo install react-native-reanimated
 npm install react-native-safe-area-context
 expo install @expo-google-fonts/redressed expo-font expo-app-loading
+npm install react-native-maps --save-exact
 expo install expo-status-bar
 expo start --clear
 
