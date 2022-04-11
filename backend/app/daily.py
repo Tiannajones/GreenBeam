@@ -14,7 +14,11 @@ def populateData():
       res_id=res["id"]
       res_name=res["name"]
       res_rating=res["rating"]
-      res_categories=res["categories"]
+      res_categories = res["categories"] #https://www.yelp.com/developers/documentation/v3/all_categories
+      if(res_categories.contains("wawa")): #https://stackoverflow.com/questions/178199/python-can-i-have-a-list-with-named-indices
+        res_categories = []
+
+      
       try:
         res_phone=int(res["phone"][2:]) #gets rid of '+1' and makes sure that there is a phone number for the restaurant
       except ValueError:
