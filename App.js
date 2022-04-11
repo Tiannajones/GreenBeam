@@ -1,10 +1,11 @@
-import { Coustard_400Regular, useFonts } from 'expo-font';
 import React, { useEffect, useState } from 'react';
-import { Settings, StyleSheet, Text, View, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import { useFonts, Redressed_400Regular} from '@expo-google-fonts/redressed';
+import AppLoading from 'expo-app-loading';
 
-
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons,FontAwesome } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 import { StatusBar } from 'expo-status-bar';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem  } from "@react-navigation/drawer";
@@ -27,10 +28,11 @@ import SettingScreen from "./screens/SettingScreen"
 /*
 This just holds the actual home page and Resuant page 
 */
+// initialParams={{ itemId: Location.getCurrentPositionAsync() }}
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => (
   <HomeStack.Navigator screenOptions={{headerShown: false, headerBackVisible : 'false' }}>
-    <HomeStack.Screen name="Home" component={Home} />
+    <HomeStack.Screen name="Home" component={Home}/>
     <HomeStack.Screen name="Restaurant" component={Restaurant} />
   </HomeStack.Navigator>
 );
@@ -79,8 +81,8 @@ https://reactnavigation.org/docs/drawer-navigator/
 */
 const HomeDrawer = createDrawerNavigator();
 const HomeDrawerScreen  = () => (
-  <HomeDrawer.Navigator initialRouteName="HomeStack" screenOptions={{  headerBackVisible : 'false' }} drawerContent={(props) => <CustomDrawerContent {...props} />}>
-    <HomeDrawer.Screen name="HomeStack" component={HomeStackScreen} options={{title :"Home", headerTitle : "" }}/> 
+  <HomeDrawer.Navigator initialRouteName="HomeStack" screenOptions={{  headerBackVisible : 'false',gestureEnabled : false }} drawerContent={(props) => <CustomDrawerContent {...props} />}>
+    <HomeDrawer.Screen name="HomeStack" component={HomeStackScreen} options={{title :"Home", headerTitle : "" ,gestureEnabled : false}}/> 
     <HomeDrawer.Screen name="Profile" component={Profile} />
     <HomeDrawer.Screen name="Favorites" component={Favorites} />
     <HomeDrawer.Screen name="Settings" component={SettingScreen} />
@@ -96,36 +98,41 @@ The second layer is the create account proccess
 */
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
-  <AuthStack.Navigator presentation= 'card' screenOptions={{gestureEnabled : false, headerBackVisible : false }}>
+  <AuthStack.Navigator presentation= 'card'>
     <AuthStack.Screen
       name="Login"
       component={LoginScreen}
-      options={{ title: "Sign In",}}
+      options={{ title: "Sign In", headerShown: false, gestureEnabled : false}}
     />
     <AuthStack.Screen
       name="CreateAccount"
       component={CreateAccount}
-      options={{ title: "Create Account" }}
+      options={{ title: "Create Account",gestureEnabled : false, headerStyle: {backgroundColor: '#19b194',headerTintColor: "#FFF",}}}
     />
     <AuthStack.Screen
       name="HomeDrawer"
       component={HomeDrawerScreen}
-      options={{headerShown: false}}
+      options={{headerShown: false, gestureEnabled : false}}
     />
   </AuthStack.Navigator>
 );
 
 export default function App() {
-  const [number, onChangeNumber] = React.useState(null);
-  
-  return (
+ //const [number, onChangeNumber] = React.useState(null);
+ console.log("runs")   
+  let [fontsLoaded] = useFonts({Redressed_400Regular, "Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf")});
+
+ if (!fontsLoaded) {
+      return <AppLoading />;
+  } else {
+    return (
     //<AuthContext.Provider value={authContext}>r
         <NavigationContainer>
           <AuthStackScreen/>
         </NavigationContainer>         
           //</AuthContext.Provider>
   );
-};
+}};
 //commented out but may be useful for login reqirements 
 
 // /*
