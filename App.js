@@ -10,6 +10,9 @@ import { StatusBar } from 'expo-status-bar';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem  } from "@react-navigation/drawer";
 import { createStackNavigator } from '@react-navigation/stack';
 
+//import for Authentication
+import { AuthContext } from './context';
+
 /**
  * App Screens
  **/
@@ -118,12 +121,37 @@ const AuthStackScreen = () => (
 export default function App() {
   const [number, onChangeNumber] = React.useState(null);
   
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [userToken, setUserToken] = React.useState(null);
+
+  
+  const authContext = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setIsLoading(false);
+        setUserToken("asdf");
+       },
+       signUp: () => {
+         setIsLoading(false);
+         setUserToken("asdf");
+       },
+       signOut: () => {
+         setIsLoading(false);
+         setUserToken(null);
+       }
+     };
+   }, []);
+
   return (
-    //<AuthContext.Provider value={authContext}>r
+      <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-          <AuthStackScreen/>
+          {userToken ? ( 
+            <HomeDrawerScreen/>
+          ) : ( 
+            <AuthStackScreen/>
+          )}
         </NavigationContainer>         
-          //</AuthContext.Provider>
+      </AuthContext.Provider>
   );
 };
 //commented out but may be useful for login reqirements 
