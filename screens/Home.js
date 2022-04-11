@@ -1,124 +1,59 @@
+import { StyleSheet, Text, View } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import * as Location from 'expo-location';
+import {styles} from './style.js';
+
+//https://github.com/react-native-maps/react-native-maps
+//https://github.com/react-native-maps/react-native-maps/blob/master/docs/installation.md
+//https://instamobile.io/react-native-tutorials/react-native-maps/
+//https://instamobile.io/react-native-tutorials/react-native-location/
+
 import React from 'react';
-// import { SearchBar } from 'react-native-elements';
-// import { StyleSheet, Text, View } from 'react-native';
-import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
 
-
-export default function HomeLoad({ navigation }) {
-  
-  const [Search, onSearch] = React.useState();
-  const items = [...Array(100)].map((val, i) => `Item ${i}`);
-
-  const searchAttempt = (Search) => {
-    if(Boolean(Search)) {
-      console.log(Search);
-      navigation.push("HomeDrawer");
-    }
+export default function HomeLoad() {
+ /*
+  const checkPermission = () => {
+  const hasPermission =  Location.requestForegroundPermissionsAsync();
+  if (hasPermission.status === 'granted') {
+    const permission =  askPermission();
+    return permission;
   }
-  
-  const App = () => (
-    <div className="Home.js">
-      <div className="leftCol">
-        leftCol
-      </div>
-      
-      <div className="centerCol">
-        <span>List</span>
-        <ul>
-          {items.map((item, i) => (<li key={`item_${i}`}>{ item }</li>))}
-        </ul>
-      </div>
-      
-      <div className="rightCol">
-        rightCol
-      </div>
-    </div>
-  );
-  
-   // ReactDOM.render(<App />, document.getElementById('react'));
+  return true;
+  };
+  const askPermission =  () => {
+  const permission =  Location.getForegroundPermissionsAsync();
+  return permission.status === 'granted';
+  };
+ 
+  checkPermission
+  const userLocation =  Location.getCurrentPositionAsync();
+  */
 
+  /*
+<MapView
+         style={mapstyles.map}
+         provider={PROVIDER_GOOGLE}
+         showsUserLocation
+         initialRegion={{
+         latitude: 30.633263,
+         longitude: -97.677986,
+         latitudeDelta: 0.0922,
+         longitudeDelta: 0.0421}}
+        />
+  */
+  
+  
   return (
-    <View style={styles.container}> 
-
-    <TextInput
-      style={styles.input}
-      onChangeText={onSearch}
-      value={Search}
-      placeholder="Searching"
-    />
-
-    <TouchableHighlight onPress={() => searchAttempt(Search)} style={styles.button}>
-            <Text style = {styles.text}>
-               Search
-            </Text>
-      </TouchableHighlight>
-
+    <View style={styles.home}> 
+      <View style={{height: 400,
+   width: 400, backgroundColor: '#fff'}}>
+        
       </View>
-
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-
-  // search bar
-
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
+const mapstyles = StyleSheet.create({
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
-   button: {
-    backgroundColor: "#FFFFFF",
-     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 8,
-    height: 40,
-    width: 200,
-  },
-  text: {
-     fontSize: 20,
-      borderColor: 'black',
-  },
-  input: {
-    height: 40,
-    width: 200,
-    margin: 8,
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-    textAlign: 'center'
-  },
-
-  // scrollable bar 
-/*
-  scrollableContainer: {
-    display: flex,
-    flexDirection: row,
-    height: 100,
-  },
-  
-  leftCol: {
-    flex: 1,
-    display: flex,
-    justifyContent: center,
-    alignItems: center,
-    background: '#ddd',
-  },
-  
-  centerCol: {
-    flex: 1,
-    background: '#aaa',
-    overFlow: scroll,
-  },
-  
-  rightCol: {
-    flex: 1,
-    display: flex,
-    justifyContent: center,
-    alignItems: center,
-    background: '#e7e7e7',
-  }
-*/
 });
