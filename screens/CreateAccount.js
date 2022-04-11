@@ -1,4 +1,5 @@
 import { TouchableHighlight , StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
+import {styles} from './style.js';
 
 import React from 'react';
 
@@ -43,7 +44,7 @@ export default function CreateAccountLoad({ navigation }) {
         placeholder="Phone number"
       />
 
-    <TouchableHighlight onPress={() => CreateAccountAttemp(Username, Password, Email)} style={styles.button}>
+    <TouchableHighlight onPress={() => CreateAccountAttemp(Username, Password, Email)} style={styles.button }>
             <Text style = {styles.text}>
                Create Account 
             </Text>
@@ -51,34 +52,3 @@ export default function CreateAccountLoad({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#118c34',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-   button: {
-    backgroundColor: "#fff",
-     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 8,
-    height: 40,
-    width: 200,
-  },
-  text: {
-     fontSize: 20,
-      borderColor: 'black',
-  },
-  input: {
-    height: 40,
-    width: 200,
-    margin: 8,
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-    textAlign: 'center'
-  },
-});
