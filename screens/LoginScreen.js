@@ -1,62 +1,29 @@
-import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
-
+import { TouchableHighlight, Text, View, TextInput,Image} from 'react-native';
+import { Dimensions } from 'react-native';
 import React from 'react';
+import {styles} from './style.js';
 
-const ValidityState= (Username, Password) =>{{
-  let input = this.state.input; 
-  let errors = {};
-  let isValid = true; 
-
-  if(!input['email']) {
-    isValid = false; 
-    errors['email'] = "Please enter you email address";
-  }
-  if (typeof input['email'] !== "undefined"){
-      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      if(!pattern.test(input['email'])) {
-        isValid = false;
-        errors['email'] = 'Please enter a valid email address.';
-      }
-  }
-
+const fontwidth= Dimensions.get('window').width
 export default function LoginScreenload({ navigation }) {
     const [Username, onUserName] = React.useState();
     const [Password, onPassword ] = React.useState();
-
+   
+    
     const loginAttemt = (Username, Password) =>{
       if(Boolean(Username) && Boolean(Password)){ //Must have a username and pasword defined  
       console.log(Username);
       console.log(Password);
-      navigation.push("HomeDrawer");
+      navigation.navigate('HomeDrawer');
       }else{
         console.log("done")
       }
     }
-
-    
-    
-     if(!input['password']) {
-        isValid = false; 
-        errors['password'] = 'Please enter your password';
-      }    
-      if(typeof input ['password'] !== "undefined") {
-        if(input[password].length < 6) {
-          isValid = false;
-          errors['password'] = 'Please enter a password that is at least 6 characters in length'; 
-
-        }
-      }  
-      this.setState({
-        errors: errors 
-      });
-      return isValid; 
-
-    }
-    
-    
+  
+    //
   return (
       <View style={styles.container}> 
-      
+      <Text style = {{fontSize:0.2*fontwidth,fontFamily: 'Redressed_400Regular',color: '#fff',}}> Green Beam  </Text>
+      <Image source = {require('./greenbeamlogo.png')} style = {{ width: '80%', height: '30%',marginTop: 50 ,marginBottom: 30}}/>
       <TextInput
         style={styles.input}
         onChangeText={onUserName}
@@ -85,44 +52,3 @@ export default function LoginScreenload({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#118c34',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-   button: {
-    backgroundColor: "#fff",
-     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 8,
-    height: 40,
-    width: 200,
-  },
-  text: {
-     fontSize: 20,
-      borderColor: 'black',
-  },
-  input: {
-    height: 40,
-    width: 200,
-    margin: 8,
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-    textAlign: 'center'
-  },
-   root: {  // this should make the field name red
-    '&$error': {
-      color: 'red'
-    }
-  },
-  underline: {  // this should make the error message below the field red 
-    '&$error:after': {
-      borderBottomColor: 'red',
-    }
-  },
-});
