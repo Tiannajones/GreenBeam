@@ -1,5 +1,5 @@
 import { Coustard_400Regular, useFonts } from 'expo-font';
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import { Settings, StyleSheet, Text, View, Alert } from 'react-native';
 
 
@@ -11,7 +11,8 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import { createStackNavigator } from '@react-navigation/stack';
 
 //import for Authentication
-import { AuthContext } from './context';
+import {AuthContext} from './context/AuthContext';
+import * as Keychain from 'react-native-keychain';
 
 /**
  * App Screens
@@ -24,6 +25,7 @@ import LoginScreen from "./screens/LoginScreen"
 import Profile from "./screens/Profile"
 import Restaurant from "./screens/Restaurant"
 import SettingScreen from "./screens/SettingScreen"
+import Spinner from './screens/Spinner';
 
 
 
@@ -38,25 +40,21 @@ const HomeStackScreen = () => (
   </HomeStack.Navigator>
 );
 
-/*
-This funtion can handel all of the necessary requirements for loging the user out 
-Currently just moves the user to the login page  
-*/
-const LogoutFunct = (parent) =>
-parent.pop()
-
-
 //https://reactnative.dev/docs/alert
-//This creates an alert(a popup) which confirms if the user would like to logout 
-const createTwoButtonAlert = (parent) =>
-    Alert.alert(
-      "Log Out",
-      "Are you sure you want to log out",
-      [
-        { text: "No"},//does nothing closes alert 
-        {text: "Yes", onPress: () => LogoutFunct(parent)}
-      ]
-    );
+//This creates an alert(a popup) which confirms if the user would like to logout
+
+
+const createTwoButtonAlert = (parent) => {
+  const authContext = useContext(AuthContext);
+  Alert.alert(
+    "Log Out",
+    "Are you sure you want to log out",
+    [
+      { text: "No"},//does nothing closes alert 
+      {text: "Yes", onPress: () => authContext.logout()}
+    ]
+  );
+};
 
 /*
 With Drawer content we can add buttons directly into the drawer without them having thier own screen 
@@ -119,28 +117,61 @@ const AuthStackScreen = () => (
 );
 
 export default function App() {
+
+  const authContext = useContext(AuthContext);
+  const [status, setStatus] = useState('loading');
+
+  const loadJWT = useCallback(async () => {
+    try {
+      const value = await Keychain.getGenericPassword();
+      const jwt = JSON.parse(value.password);
+
+      authContext.setAuthState({
+        accessToken: jwt.accessToken || null,
+        refreshToken: jwt.refreshToken || null,
+        authenticated: jwt.accessToken !== null,
+      });
+      setStatus('success');
+    } catch (error) {
+      setStatus('error');
+      console.log(`Keychain Error: ${error.message}`);
+      authContext.setAuthState({
+        accessToken: null,
+        refreshToken: null,
+        authenticated: false,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    loadJWT();
+  }, [loadJWT]);
+
+  if (status === 'loading') {
+    return <Spinner />;
+  }
+
+  if (authContext?.authState?.authenticated === true) {
+    return (
+      <NavigationContainer>
+        <HomeDrawerScreen/>
+      </NavigationContainer>
+    );
+  } else {
+    return (
+      <NavigationContainer>
+        <AuthStackScreen/>
+      </NavigationContainer>
+    );
+  }
+  
+  
+  /////////////////////////////////
   const [number, onChangeNumber] = React.useState(null);
   
   const [isLoading, setIsLoading] = React.useState(true);
   const [userToken, setUserToken] = React.useState(null);
 
-  
-  const authContext = React.useMemo(() => {
-    return {
-      signIn: () => {
-        setIsLoading(false);
-        setUserToken("asdf");
-       },
-       signUp: () => {
-         setIsLoading(false);
-         setUserToken("asdf");
-       },
-       signOut: () => {
-         setIsLoading(false);
-         setUserToken(null);
-       }
-     };
-   }, []);
 
   return (
       <AuthContext.Provider value={authContext}>

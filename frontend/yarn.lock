@@ -1666,9 +1666,14 @@ atob@^2.1.2:
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+axios-auth-refresh@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/axios-auth-refresh/-/axios-auth-refresh-3.2.2.tgz#e3ef505932d33318c74c2ffce04c0fdc9767ffe0"
+  integrity sha512-Ocu8leYhuhNejH/RBC0tWpUuv0cOplvdwltIQuYmkhihbZ8AqR0qPIZs+fV5V3JL6L5IM4Y5rjHgXyQWozjM7g==
+
 axios@^0.26.1:
   version "0.26.1"
-  resolved "https://registry.npmjs.org/axios/-/axios-0.26.1.tgz"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
   dependencies:
     follow-redirects "^1.14.8"
@@ -4515,6 +4520,11 @@ react-native-gesture-handler@~2.1.0:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-keychain@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.0.0.tgz#ff708e4dc2a5440df717179bf9b7cd50f78b61d7"
+  integrity sha512-c7Cs+YQN26UaQsRG1dmlXL7VL2ctnXwH/dl0IOMEQ7ZaL2NdN313YSAI8ZEZZjrVhNmPsyWEuvTFqWrdpItqQg==
 
 react-native-reanimated@~2.3.1:
   version "2.3.3"
