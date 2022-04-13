@@ -10,31 +10,63 @@ export default function LoginScreenload({ navigation }) {
     const [Password, setPassword ] = React.useState('');
     //for authentication
     const authContext = useContext(AuthContext);
-    const publicAxios = useContext(AxiosContext);
+    const {publicAxios} = useContext(AxiosContext);
 
     const onLogin = async () => {
+      console.log("start");
       try {
-        const response = await publicAxios.post('api/token', {
-          Email,
-          Password,
-        });
-  
-        const {accessToken, refreshToken} = response.data;
-        authContext.setAuthState({
-          accessToken,
-          refreshToken,
-          authenticated: true,
-        });
-  
-        await Keychain.setGenericPassword(
-          'token',
-          JSON.stringify({
+        console.log("try1");
+        navigation.push("CreateAccount");
+        try{
+          const response = await publicAxios.post('api/token', {
+            "email": Email,
+            "password": Password,
+          });
+        } catch (err){
+          if (error.response) {
+            // There is an error response from the server
+            // You can anticipate error.response.data here
+            const error = err.response.data;
+            dispatch(addError(error.message));
+          } else if (error.request) {
+            // The request was made but no response was received
+            // Error details are stored in error.reqeust
+            console.log(error.request);
+          } else {
+            // Some other errors
+            console.log('Error', error.message);
+          }
+        }
+        console.log(response.data);
+        try{
+          console.log("try2");
+          const {accessToken, refreshToken} = response.data;
+          authContext.setAuthState({
             accessToken,
             refreshToken,
-          }),
-        );
+            authenticated: true,
+          });
+        }catch(error){
+          Alert.alert('setAuthState Failed', error.response.data.message);
+          return navigation.push("CreateAccount");
+        }
+        try{
+          console.log("try3");
+          await Keychain.setGenericPassword(
+            'token',
+            JSON.stringify({
+              accessToken,
+              refreshToken,
+            }),
+          );
+        }catch (error){
+          Alert.alert('KeyChain Failed', error.response.data.message);
+          return navigation.push("CreateAccount");
+        }
+        navigation.push("CreateAccount");
       } catch (error) {
         Alert.alert('Login Failed', error.response.data.message);
+        return navigation.push("CreateAccount")
       }
     };
 

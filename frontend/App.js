@@ -116,7 +116,7 @@ const AuthStackScreen = () => (
   </AuthStack.Navigator>
 );
 
-export default function App() {
+const App = () => {
 
   const authContext = useContext(AuthContext);
   const [status, setStatus] = useState('loading');
@@ -135,13 +135,21 @@ export default function App() {
     } catch (error) {
       setStatus('error');
       console.log(`Keychain Error: ${error.message}`);
-      authContext.setAuthState({
-        accessToken: null,
-        refreshToken: null,
-        authenticated: false,
-      });
+      try{
+        authContext.setAuthState({
+          accessToken: null,
+          refreshToken: null,
+          authenticated: false,
+        });
+      } catch (error){
+        console.log(`setAuthState Error: ${error.message}`);
+      }
     }
   }, []);
+
+  //DEBUG
+
+  console.log(authContext?.authState?.authenticated); //DEBUG
 
   useEffect(() => {
     loadJWT();
@@ -151,18 +159,22 @@ export default function App() {
     return <Spinner />;
   }
 
-  if (authContext?.authState?.authenticated === true) {
-    return (
-      <NavigationContainer>
-        <HomeDrawerScreen/>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <NavigationContainer>
-        <AuthStackScreen/>
-      </NavigationContainer>
-    );
+  try{
+    if (authContext?.authState?.authenticated === true) {
+      return (
+        <NavigationContainer>
+          <HomeDrawerScreen/>
+        </NavigationContainer>
+      );
+    } else {
+      return (
+        <NavigationContainer>
+          <AuthStackScreen/>
+        </NavigationContainer>
+      );
+    }
+  } catch (error){
+    console.log(error.message);
   }
   
   
@@ -185,6 +197,8 @@ export default function App() {
       </AuthContext.Provider>
   );
 };
+
+export default App;
 //commented out but may be useful for login reqirements 
 
 // /*
