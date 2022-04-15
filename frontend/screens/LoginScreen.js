@@ -7,30 +7,39 @@ import {AxiosContext} from '../context/AxiosContext';
 import axios from 'axios';
 
 export default function LoginScreenload({ navigation }) {
-    const [Email, setEmail] = React.useState('');
-    const [Password, setPassword ] = React.useState('');
-    //for authentication
-    const authContext = useContext(AuthContext);
-    const {publicAxios} = useContext(AxiosContext);
+  const [Email, setEmail] = React.useState('');
+  const [Password, setPassword ] = React.useState('');
+  //for authentication
+  const authContext = useContext(AuthContext);
+  const {publicAxios} = useContext(AxiosContext);
 
-    const onLogin = async () => {
-      console.log("start");
-      console.log(Email);
-      console.log(Password);
-      //axios.get('127.0.0.1:8000/yelprestaurant')
-      //.then((response) => {
-      //  console.log(response);
-      //}
-      //, (error) => {
-      //  console.log(error);
-      //})
-      fetch('http://10.116.148.58:8000/yelprestaurant/')
-        .then(response => response.json())
-        .then(data => console.log(data));
+  const onLogin = async () => {
+    console.log(Email)
+    console.log(Password)
+    try {
+      const response = await publicAxios.post('api/token/', {
+        email: Email,
+        password: Password,
+      });
 
+      const {accessToken, refreshToken} = response.data;
+      authContext.setAuthState({
+        accessToken,
+        refreshToken,
+        authenticated: true,
+      });
 
-      navigation.push("CreateAccount")
-    };
+      await Keychain.setGenericPassword(
+        'token',
+        JSON.stringify({
+          accessToken,
+          refreshToken,
+        }),
+      );
+    } catch (error) {
+      Alert.alert('Login Failed', error.response.data.message);
+    }
+  };
 
   return (
       <View style={styles.container}> 

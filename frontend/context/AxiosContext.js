@@ -11,11 +11,11 @@ const AxiosProvider = ({children}) => {
   const authContext = useContext(AuthContext);
 
   const authAxios = axios.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: 'http://10.116.148.58:8000/',
   });
 
   const publicAxios = axios.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: 'http://10.116.148.58:8000/',
   });
 
   authAxios.interceptors.request.use(
@@ -39,7 +39,7 @@ const AxiosProvider = ({children}) => {
     const options = {
       method: 'POST',
       data,
-      url: 'http://127.0.0.1/api/token/refresh',
+      url: 'http://10.116.148.58:8000/api/token/refresh',
     };
 
     return axios(options)
