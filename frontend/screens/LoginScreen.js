@@ -4,6 +4,7 @@ import React, {useContext, useState} from 'react';
 import {AuthContext} from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
 import {AxiosContext} from '../context/AxiosContext';
+import axios from 'axios';
 
 export default function LoginScreenload({ navigation }) {
     const [Email, setEmail] = React.useState('');
@@ -14,60 +15,21 @@ export default function LoginScreenload({ navigation }) {
 
     const onLogin = async () => {
       console.log("start");
-      try {
-        console.log("try1");
-        navigation.push("CreateAccount");
-        try{
-          const response = await publicAxios.post('api/token', {
-            "email": Email,
-            "password": Password,
-          });
-        } catch (err){
-          if (error.response) {
-            // There is an error response from the server
-            // You can anticipate error.response.data here
-            const error = err.response.data;
-            dispatch(addError(error.message));
-          } else if (error.request) {
-            // The request was made but no response was received
-            // Error details are stored in error.reqeust
-            console.log(error.request);
-          } else {
-            // Some other errors
-            console.log('Error', error.message);
-          }
-        }
-        console.log(response.data);
-        try{
-          console.log("try2");
-          const {accessToken, refreshToken} = response.data;
-          authContext.setAuthState({
-            accessToken,
-            refreshToken,
-            authenticated: true,
-          });
-        }catch(error){
-          Alert.alert('setAuthState Failed', error.response.data.message);
-          return navigation.push("CreateAccount");
-        }
-        try{
-          console.log("try3");
-          await Keychain.setGenericPassword(
-            'token',
-            JSON.stringify({
-              accessToken,
-              refreshToken,
-            }),
-          );
-        }catch (error){
-          Alert.alert('KeyChain Failed', error.response.data.message);
-          return navigation.push("CreateAccount");
-        }
-        navigation.push("CreateAccount");
-      } catch (error) {
-        Alert.alert('Login Failed', error.response.data.message);
-        return navigation.push("CreateAccount")
-      }
+      console.log(Email);
+      console.log(Password);
+      //axios.get('127.0.0.1:8000/yelprestaurant')
+      //.then((response) => {
+      //  console.log(response);
+      //}
+      //, (error) => {
+      //  console.log(error);
+      //})
+      fetch('http://10.116.148.58:8000/yelprestaurant/')
+        .then(response => response.json())
+        .then(data => console.log(data));
+
+
+      navigation.push("CreateAccount")
     };
 
   return (
