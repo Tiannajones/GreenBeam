@@ -8,7 +8,7 @@ class YelpRestaurantSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class YelpCategoriesSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = YelpCategories
         fields = '__all__'
 
