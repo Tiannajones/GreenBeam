@@ -1,8 +1,11 @@
-import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
+import { TouchableHighlight, StyleSheet, Text, View, TextInput,Alert, Keyboard  } from 'react-native';
 
-import React from 'react';
+import React, {useContext, useState} from 'react';
+import {AuthContext} from '../context/AuthContext';
+import * as Keychain from 'react-native-keychain';
+import {AxiosContext} from '../context/AxiosContext';
 
-const ValidityState= (Username, Password) =>{{
+/*const ValidityState= (Username, Password) =>{
   let input = this.state.input; 
   let errors = {};
   let isValid = true; 
@@ -18,40 +21,46 @@ const ValidityState= (Username, Password) =>{{
         errors['email'] = 'Please enter a valid email address.';
       }
   }
+}
+*/
 
-    export default function LoginScreenload({ navigation }) {
-    const [Username, onUserName] = React.useState();
-    const [Password, onPassword ] = React.useState();
 
-    const loginAttemt = (Username, Password) =>{
-      if(Boolean(Username) && Boolean(Password)){ //Must have a username and pasword defined  
-      console.log(Username);
-      console.log(Password);
-      navigation.push("HomeDrawer");
-      }else{
-        console.log("done")
+
+  export default function LoginScreenload({ navigation }) {
+    const [Email, setEmail] = React.useState('');
+    const [Password, setPassword ] = React.useState('');
+    //for authentication
+    const authContext = useContext(AuthContext);
+    const {publicAxios} = useContext(AxiosContext);
+  
+    const onLogin = async () => {
+      console.log(Email)
+      console.log(Password)
+      try {
+        const response = await publicAxios.post('api/token/', {
+          email: Email,
+          password: Password,
+        });
+  
+        const {accessToken, refreshToken} = response.data;
+        authContext.setAuthState({
+          accessToken,
+          refreshToken,
+          authenticated: true,
+        });
+  
+        //await Keychain.setGenericPassword(
+          //'token',
+          //JSON.stringify({
+            //accessToken,
+            //refreshToken,
+         // }),
+        //);
+        navigation.push("CreateAccount");
+      } catch (error) {
+        Alert.alert('Login Failed', error.response.data.message);
       }
-    }
-
-    
-    
-     if(!input['password']) {
-        isValid = false; 
-        errors['password'] = 'Please enter your password';
-      }    
-      if(typeof input ['password'] !== "undefined") {
-        if(input[password].length < 6) {
-          isValid = false;
-          errors['password'] = 'Please enter a password that is at least 6 characters in length'; 
-
-        }
-      }  
-      this.setState({
-        errors: errors 
-      });
-      return isValid; 
-
-    }
+    };
     
     
   return (
@@ -59,18 +68,20 @@ const ValidityState= (Username, Password) =>{{
       
       <TextInput
         style={styles.input}
-        onChangeText={onUserName}
-        value={Username}
+        onChangeText={text => setEmail(text)}
+        value={Email}
+        keyboardType="email-address"
         placeholder="Email"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onPassword}
+        secureTextEntry
+        onChangeText={text => setPassword(text)}
         value={Password}
         placeholder="Password"
       />
 
-    <TouchableHighlight onPress={() => loginAttemt(Username, Password)} style={styles.button}>
+    <TouchableHighlight onPress={() => onLogin()} style={styles.button}>
             <Text style = {styles.text}>
                Login
             </Text>
@@ -84,7 +95,8 @@ const ValidityState= (Username, Password) =>{{
     
     </View>
   );
-}
+  }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -93,9 +105,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-   button: {
+  button: {
     backgroundColor: "#fff",
-     alignItems: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,
     margin: 8,
@@ -125,5 +137,4 @@ const styles = StyleSheet.create({
       borderBottomColor: 'red',
     }
   },
-},
 )};
