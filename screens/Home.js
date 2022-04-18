@@ -1,7 +1,10 @@
 import React from 'react';
 // import { SearchBar } from 'react-native-elements';
 // import { StyleSheet, Text, View } from 'react-native';
+import Geolocation from '@react-native-community/geolocation'; // paste inside map view (for get location)
+import {request, PERMISSIONS} from 'react-native-permissions'; // for request location permission
 import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
+import { Platform } from 'react-native-web';
 
 
 export default function HomeLoad({ navigation }) {
@@ -90,6 +93,35 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     textAlign: 'center'
   },
+
+  
+  componentDidMount() {
+    this.requestLocationPermission();
+  },
+
+  requestLocationPermission : async () => {
+    if(Platform.OS === 'ios') {
+      var response = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+      console.log('iPhone: ' + response);
+
+      if(response === 'granted') {
+        this.locateCurrentPosition();
+      } else (
+        response = await request(PERMISSIONS.ANDROID.ACCESS_FIND_LOCATION));
+        console.log('Android: ' + response);
+
+        if(response === 'granted') {
+          this.locateCurrentPosition();
+      }
+    }
+  },
+
+  locateCurrentPosition : () => {
+    Geolocation.getCurrentPosition(position => {
+      console.log(JSON.stringify(position));
+    })
+  }
+  
 
   // scrollable bar 
 /*
