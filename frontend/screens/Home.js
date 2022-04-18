@@ -1,6 +1,6 @@
 import React from 'react';
 // import { SearchBar } from 'react-native-elements';
-// import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Geolocation from '@react-native-community/geolocation'; // paste inside map view (for get location)
 import {request, PERMISSIONS} from 'react-native-permissions'; // for request location permission
 import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
