@@ -19,7 +19,7 @@ const ValidityState= (Username, Password) =>{{
       }
   }
 
-export default function LoginScreenload({ navigation }) {
+    export default function LoginScreenload({ navigation }) {
     const [Username, onUserName] = React.useState();
     const [Password, onPassword ] = React.useState();
 
@@ -125,4 +125,5 @@ const styles = StyleSheet.create({
       borderBottomColor: 'red',
     }
   },
-});
+},
+)};
