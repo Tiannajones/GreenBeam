@@ -24,9 +24,7 @@ import {AxiosContext} from '../context/AxiosContext';
 }
 */
 
-
-
-  export default function LoginScreenload({ navigation }) {
+export default function LoginScreenload({ navigation }) {
     const [Email, setEmail] = React.useState('');
     const [Password, setPassword ] = React.useState('');
     //for authentication
@@ -95,7 +93,7 @@ import {AxiosContext} from '../context/AxiosContext';
     
     </View>
   );
-  }
+}
 
 
 const styles = StyleSheet.create({
@@ -137,4 +135,4 @@ const styles = StyleSheet.create({
       borderBottomColor: 'red',
     }
   },
-)};
+});
