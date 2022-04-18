@@ -2,21 +2,21 @@
 import React, {createContext, useState} from 'react';
 import * as Keychain from 'react-native-keychain';
 
-const AuthContext = createContext('default');
+const AuthContext = createContext(null);
 const {Provider} = AuthContext;
 
 const AuthProvider = ({children}) => {
   const [authState, setAuthState] = useState({
     accessToken: null,
     refreshToken: null,
-    authenticated: false,
+    authenticated: null,
   });
 
   const logout = async () => {
-    await Keychain.resetGenericPassword();
+    //await Keychain.resetGenericPassword(); idk why this is causing issues
     setAuthState({
-      accessToken: '',
-      refreshToken: '',
+      accessToken: null,
+      refreshToken: null,
       authenticated: false,
     });
   };

@@ -11,26 +11,26 @@ export default function CreateAccountLoad({ navigation }) {
   const [Password, setPassword ] = React.useState('');
   //for authentication
   const authContext = useContext(AuthContext);
-  const publicAxios = useContext(AxiosContext);
+  const {publicAxios} = useContext(AxiosContext);
 
   const onCreateAccount = async () => {
     try{
-      const response = await publicAxios.post('api/user/register', {
-        Email,
-        Username,
-        Password,
+      const response1 = await publicAxios.post('api/user/register/', {
+        email: Email,
+        user_name: Username,
+        password: Password,
       });
     }catch (error){
-      Alert.alert('Registration Failed', error.response.data.message);
+      Alert.alert('Registration Failed', error.response1.data.message);
     }
     
     try {
-      const response = await publicAxios.post('api/token', {
-        Email,
-        Password,
+      const response2 = await publicAxios.post('api/token/', {
+        email: Email,
+        password: Password,
       });
 
-      const {accessToken, refreshToken} = response.data;
+      const {accessToken, refreshToken} = response2.data;
       authContext.setAuthState({
         accessToken,
         refreshToken,
@@ -45,7 +45,7 @@ export default function CreateAccountLoad({ navigation }) {
         }),
       );
     } catch (error) {
-      Alert.alert('Login Failed', error.response.data.message);
+      Alert.alert('Login Failed', error.response2.data.message);
     }
   };
 

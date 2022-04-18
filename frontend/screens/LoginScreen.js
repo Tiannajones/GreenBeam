@@ -4,7 +4,6 @@ import React, {useContext, useState} from 'react';
 import {AuthContext} from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
 import {AxiosContext} from '../context/AxiosContext';
-import axios from 'axios';
 
 export default function LoginScreenload({ navigation }) {
   const [Email, setEmail] = React.useState('');
@@ -29,13 +28,14 @@ export default function LoginScreenload({ navigation }) {
         authenticated: true,
       });
 
-      await Keychain.setGenericPassword(
-        'token',
-        JSON.stringify({
-          accessToken,
-          refreshToken,
-        }),
-      );
+      //await Keychain.setGenericPassword(
+        //'token',
+        //JSON.stringify({
+          //accessToken,
+          //refreshToken,
+       // }),
+      //);
+      navigation.push("CreateAccount");
     } catch (error) {
       Alert.alert('Login Failed', error.response.data.message);
     }

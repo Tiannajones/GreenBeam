@@ -44,29 +44,37 @@ const HomeStackScreen = () => (
 //This creates an alert(a popup) which confirms if the user would like to logout
 
 
-const createTwoButtonAlert = (parent) => {
+function createTwoButtonAlert(){
+  try{
   const authContext = useContext(AuthContext);
+  } catch (error) {
+    console.log(`authContext Error: ${error.message}`);
+  }
   Alert.alert(
     "Log Out",
     "Are you sure you want to log out",
     [
       { text: "No"},//does nothing closes alert 
-      {text: "Yes", onPress: () => authContext.logout()}
+      {text: "Yes", onPress: () => console.log("LOGOUT")} //authContext.logout()
     ]
   );
-};
+}
 
 /*
 With Drawer content we can add buttons directly into the drawer without them having thier own screen 
 This holds the logout button which logs the user out 
 */
+
+//
 function CustomDrawerContent(props) {
  //https://stackoverflow.com/questions/52409855/how-to-get-objects-in-array-of-object-in-react-native
+ //createTwoButtonAlert(props.navigation.getParent())} in onPress body
+ const authContext = useContext(AuthContext);
  return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem label="Log Out" onPress={() =>
-         createTwoButtonAlert(props.navigation.getParent())} /> 
+         authContext.logout()} /> 
     </DrawerContentScrollView>
   );
 }
