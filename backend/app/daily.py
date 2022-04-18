@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from .serializers import YelpCategoriesSerializer, YelpRestaurantSerializer
 from .models import YelpRestaurant
 from . import yelp
@@ -16,12 +17,13 @@ def populateData():
       res_id=res["id"]
       res_name=res["name"]
       res_rating=res["rating"]
-      res_categories_list = res["categories"] #THIS IS A LIST OF DICTIONARIES FOR EACH CATEGORY   https://www.yelp.com/developers/documentation/v3/all_categories
+      res_categories_list = res["categories"] #THIS IS A LIST OF DICTIONARIES FOR EACH CATEGORY: https://www.yelp.com/developers/documentation/v3/all_categories
       categories_had_list = []
 
-      for category in range(len(res_categories_list)):
-        if category["alias"] in known_category_aliases:
-          categories_had_list.append(category["alias"]) #<-------------------
+      for category_index in range(len(res_categories_list)): #loop through the list of category dictionaries provided for each resturaunt
+        current_category = res_categories_list[category_index]
+        if current_category["alias"] in known_category_aliases: #if the current category's alias is in the list of aliases we know exist
+          categories_had_list.append(current_category["alias"]) #add that alias to the list of aliases we know this resturaunt has
           
       
       try:
@@ -45,7 +47,16 @@ def populateData():
                                                       "state":res_state,"country":res_country,"zip_code":res_zip,"image_url":res_imgurl,
                                                       "yelp_url":res_yelpurl},context={'request': None})
 
-      serializer_two = YelpCategoriesSerializer(data={})
+      if len(categories_had_list) == 0: #if this resturaunt didn't have any categories from the list provided by Yelp
+        serializer_categories = YelpCategoriesSerializer(data={"business_id":res_id},context={'request': None}) #category table will hold "empty" entry for resturaunt
+      elif len(categories_had_list) > 0: #if this resturaunt has categories
+        custom_category_data = {"business_id":res_id} #creating a custom data dictionary to populate the serializer
+        for alias_index in range(len(categories_had_list)): #loop through every alias we know a resturaunt has
+          current_alias = categories_had_list[alias_index] #getting the current alias 
+          custom_category_data[current_alias] = True #updating the custom data dictionary to reflect presence of an alias
+
+        serializer_categories = YelpCategoriesSerializer(data=custom_category_data,context={'request': None})
+
 
       print(res_name) #prints the name of restaurant
       print(res_id) #prints business id
@@ -57,8 +68,20 @@ def populateData():
       else:
         print(serializer)#prints the serializer info
         print(serializer.errors)#prints the errors
-        print("Restaurant has errors")
+        print("Restaurant entry has errors")
       print('--------------')
+
+      print(res_id)
+      if serializer_categories.is_valid(): #checks to see if the data is able to be added to the model
+        #print(serializer_categories.validated_data) #prints the data that has been cleared by the serializer
+        print("Restaurant Has Valid Categories!")
+        serializer_categories.save()#saves the restaurant's categories to the database
+      else:
+        print(serializer_categories)#prints the serializer info
+        print(serializer_categories.errors)#prints the errors
+        print("Categories entry has errors")
+      print('--------------')
+
     print("Number of restaurants added:",counter)
     isDataPopulated=True #changes isDataPopulated to True
     return isDataPopulated #needed for staying on the same page
