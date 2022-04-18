@@ -5,7 +5,9 @@ import Geolocation from '@react-native-community/geolocation'; // paste inside m
 import {request, PERMISSIONS} from 'react-native-permissions'; // for request location permission
 import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
 import { Platform } from 'react-native-web';
-
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import * as Location from 'expo-location';
+import {styles} from './style.js';
 
 export default function HomeLoad({ navigation }) {
   
@@ -40,6 +42,19 @@ export default function HomeLoad({ navigation }) {
   
    // ReactDOM.render(<App />, document.getElementById('react'));
 
+
+/*
+<MapView
+         style={mapstyles.map}
+         provider={PROVIDER_GOOGLE}
+         showsUserLocation
+         initialRegion={{
+         latitude: 30.633263,
+         longitude: -97.677986,
+         latitudeDelta: 0.0922,
+         longitudeDelta: 0.0421}}
+        />
+  */
   return (
     <View style={styles.container}> 
 
@@ -49,7 +64,10 @@ export default function HomeLoad({ navigation }) {
       value={Search}
       placeholder="Searching"
     />
-
+     <View style={{height: 400,
+   width: 400, backgroundColor: '#fff'}}>
+        
+      </View>
     <TouchableHighlight onPress={() => searchAttempt(Search)} style={styles.button}>
             <Text style = {styles.text}>
                Search
@@ -60,6 +78,11 @@ export default function HomeLoad({ navigation }) {
 
   );
 }
+const mapstyles = StyleSheet.create({
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
 
 const styles = StyleSheet.create({
 
