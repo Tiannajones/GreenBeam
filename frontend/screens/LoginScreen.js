@@ -1,5 +1,6 @@
 import { TouchableHighlight, StyleSheet, Text, View, TextInput,Alert, Keyboard  } from 'react-native';
-
+import {styles} from './style.js';
+import { Dimensions } from 'react-native';
 import React, {useContext, useState} from 'react';
 import {AuthContext} from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
@@ -23,6 +24,7 @@ import {AxiosContext} from '../context/AxiosContext';
   }
 }
 */
+const fontwidth= Dimensions.get('window').width
 
 export default function LoginScreenload({ navigation }) {
     const [Email, setEmail] = React.useState('');
@@ -63,7 +65,8 @@ export default function LoginScreenload({ navigation }) {
     
   return (
       <View style={styles.container}> 
-      
+      <Text style = {{fontSize:0.2*fontwidth,fontFamily: 'Redressed_400Regular',color: '#fff',}}> Green Beam  </Text>
+      <Image source = {require('./greenbeamlogo.png')} style = {{ width: '80%', height: '30%',marginTop: 50 ,marginBottom: 30}}/>
       <TextInput
         style={styles.input}
         onChangeText={text => setEmail(text)}
@@ -96,35 +99,7 @@ export default function LoginScreenload({ navigation }) {
 }
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#118c34',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: "#fff",
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 8,
-    height: 40,
-    width: 200,
-  },
-  text: {
-     fontSize: 20,
-      borderColor: 'black',
-  },
-  input: {
-    height: 40,
-    width: 200,
-    margin: 8,
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-    textAlign: 'center'
-  },
+const popupStlye = StyleSheet.create({
    root: {  // this should make the field name red
     '&$error': {
       color: 'red'
