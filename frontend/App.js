@@ -124,6 +124,7 @@ const AuthStackScreen = () => (
 );
 
 const App = () => {
+  let [fontsLoaded] = useFonts({Redressed_400Regular, "Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf")});
 
   const authContext = useContext(AuthContext);
   const [status, setStatus] = useState('loading');
@@ -162,7 +163,7 @@ const App = () => {
     loadJWT();
   }, [loadJWT]);
 
-  if (status === 'loading') {
+  if (status === 'loading' && !fontsLoaded) {
     return <Spinner />;
   }
 
