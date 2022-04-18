@@ -1,7 +1,9 @@
-from .serializers import YelpRestaurantSerializer
+from .serializers import YelpCategoriesSerializer, YelpRestaurantSerializer
 from .models import YelpRestaurant
 from . import yelp
 
+#https://datagy.io/python-list-contains-item/?msclkid=44bac639bb3911eca06ef00e75741a0d
+known_category_aliases = ["acaibowls", "bagels", "bakeries", "beer_and_wine", "beverage_stores", "breweries", "brewpubs", "bubbletea", "butcher", "csa", "chimneycakes", "cideries", "coffee", "coffeeroasteries", "convenience", "cupcakes", "customcakes", "desserts", "distilleries", "diyfood", "donuts", "empanadas", "farmersmarket", "fooddeliveryservices", "foodtrucks", "gelato", "grocery", "honey", "icecream", "importedfood", "intlgrocery", "internetcafe", "juicebars", "kombucha", "meaderies", "organic_stores", "cakeshop", "piadina", "poke", "pretzels", "shavedice", "shavedsnow", "smokehouse", "gourmet", "candy", "cheese", "chocolate", "markets", "healthmarkets", "herbsandspices", "macarons", "meats", "oliveoil", "pastashops", "popcorn", "seafoodmarkets", "streetvendors", "tea", "waterstores", "wineries", "winetastingroom"]
 isDataPopulated = False #variable that keeps track of table being populated or not
 
 def populateData():
@@ -14,10 +16,13 @@ def populateData():
       res_id=res["id"]
       res_name=res["name"]
       res_rating=res["rating"]
-      res_categories = res["categories"] #https://www.yelp.com/developers/documentation/v3/all_categories
-      if(res_categories.contains("wawa")): #https://stackoverflow.com/questions/178199/python-can-i-have-a-list-with-named-indices
-        res_categories = []
+      res_categories_list = res["categories"] #THIS IS A LIST OF DICTIONARIES FOR EACH CATEGORY   https://www.yelp.com/developers/documentation/v3/all_categories
+      categories_had_list = []
 
+      for category in range(len(res_categories_list)):
+        if category["alias"] in known_category_aliases:
+          categories_had_list.append(category["alias"]) #<-------------------
+          
       
       try:
         res_phone=int(res["phone"][2:]) #gets rid of '+1' and makes sure that there is a phone number for the restaurant
@@ -39,6 +44,9 @@ def populateData():
                                                       "latitude":res_latitude,"longitude":res_longitude,"address":res_address,"city":res_city,
                                                       "state":res_state,"country":res_country,"zip_code":res_zip,"image_url":res_imgurl,
                                                       "yelp_url":res_yelpurl},context={'request': None})
+
+      serializer_two = YelpCategoriesSerializer(data={})
+
       print(res_name) #prints the name of restaurant
       print(res_id) #prints business id
       if serializer.is_valid(): #checks to see if the data is able to be added to the model
