@@ -14,7 +14,7 @@ export const styles= StyleSheet.create({
     alignItems: 'center',
   },
    button: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f3bd",
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,
@@ -51,7 +51,7 @@ export const styles= StyleSheet.create({
     margin: 8,
     borderWidth: 1,
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f3bd",
     textAlign: 'center'
   },
 });

@@ -87,7 +87,8 @@ https://reactnavigation.org/docs/drawer-navigator/
 */
 const HomeDrawer = createDrawerNavigator();
 const HomeDrawerScreen  = () => (
-  <HomeDrawer.Navigator initialRouteName="HomeStack" screenOptions={{  headerBackVisible : 'false' }} drawerContent={(props) => <CustomDrawerContent {...props} />}>
+  <HomeDrawer.Navigator initialRouteName="HomeStack" screenOptions={{  headerBackVisible : 'false' , headerStyle: {backgroundColor: '#f0f3bd'},headerTintColor: "#028090",headerTitleStyle: {fontFamily:"OleoScript_400Regular"},drawerActiveBackgroundColor:'#02c39a', drawerStyle: {backgroundColor: "#f0f3bd"}}}
+  drawerContent={(props) => <CustomDrawerContent {...props} />}>
     <HomeDrawer.Screen name="HomeStack" component={HomeStackScreen} options={{title :"Home", headerTitle : "" }}/> 
     <HomeDrawer.Screen name="Profile" component={Profile} />
     <HomeDrawer.Screen name="Favorites" component={Favorites} />
@@ -108,17 +109,17 @@ const AuthStackScreen = () => (
     <AuthStack.Screen
       name="Login"
       component={LoginScreen}
-      options={{ title: "Sign In",}}
+      options={{ title: "Sign In",headerStyle: {backgroundColor: '#19B194'}, headerShown: false, gestureEnabled : false}}
     />
     <AuthStack.Screen
       name="CreateAccount"
       component={CreateAccount}
-      options={{ title: "Create Account" }}
+      options={{ title: "Create Account",gestureEnabled : false, headerStyle: {backgroundColor: '#f0f3bd'},headerTintColor: "#028090",headerTitleStyle: {fontFamily:"OleoScript_400Regular"}}}
     />
     <AuthStack.Screen
       name="HomeDrawer"
       component={HomeDrawerScreen}
-      options={{headerShown: false}}
+      options={{headerShown: false, gestureEnabled : false}}
     />
   </AuthStack.Navigator>
 );
