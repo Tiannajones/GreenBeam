@@ -1,7 +1,7 @@
 import {TouchableHighlight , StyleSheet, Text, View } from 'react-native';
 import {styles} from './style.js';
 
-import React from 'react';
+import React, { Component } from 'react';
 import { useState } from 'react';
 
 
@@ -12,14 +12,24 @@ renderRestaurantBubble = ({item}) =>
   </Text>
 </View>
 
+class ArrayExample extends Component{
+  constructor(props){
+    super(props);
+      
+  }
+}
 
 
 export default function App() {
-  const questionNumber = 0 
+  const [questionNumber, setQNumber] = useState(0) 
   const [yselected, setYSelected] = useState(false)
   const [nselected, setNSelected] = useState(false)
 
-  const questionArray ={0:"The company has goals for the rational use of water, such as the use limit per activity (for example: for each meal served, 10 liters of water are spent).", 
+  const finalsubmit = (ans) =>{
+    console.log(ans)
+  }
+  const questionArray ={
+  0:"The company has goals for the rational use of water, such as the use limit per activity (for example: for each meal served, 10 liters of water are spent).", 
   1: "The company has reduced water consumption by at least 15% in the last six months, or by 30% in the previous 12 months monitored by the record (see history of water bills).",
   2: "The company performs preventive maintenance of the plumbing.",
   3: "The company, in case of a water leak, performs immediate repair.",
@@ -62,20 +72,113 @@ export default function App() {
  40: "The company does not use ingredients or products with transgenic ingredients in its composition in the production of meals.",
  41: "The company prioritizes the full use of food, producing safe preparations that use peels, stalks, and/or edible shavings of vegetables and fruits as ingredients.",
  42: ""
-
-  
 }
+//https://www.youtube.com/watch?v=KcC8KZ_Ga2M
+var anserArray = {
+  0:-1,
+  1: -1,
+  2: 1,
+  3: -1,
+  4: 0,
+  5: 1,
+  6: -1,
+  7: -1,
+  8: -1,
+  9: -1,
+  10: -1,
+  11: -1,
+  12: -1,
+  13: -1,
+  14: -1,
+  15: -1,
+  16: -1,
+  17: -1,
+  18: -1,
+  19: -1,
+  20: -1,
+  21: -1,
+  22: -1,
+  23: -1,
+  24: -1,
+  25: -1,
+  26: -1,
+  27: -1,
+  28: -1,
+  29: -1,
+  30: -1,
+  31: -1,
+  32: -1,
+  33: -1,
+  34: -1,
+  35: -1,
+  36: -1,
+  37: -1,
+  38: -1,
+  39: -1,
+  40: -1,
+  41: -1,
+  42: -1,
+  43: -1,
+  44: -1,
+  45: -1,
+  46: -1,
+  47: -1,
+  48: -1,
+  49: -1,
+  50: -1,
+  51: -1,
+  52: -1,
+  53: -1,
+  54: -1,
+  55: -1,
+  56: -1,
+  57: -1,
+  58: -1,
+  59: -1,
+  60: -1,
+  61: -1,
+  62: -1,
+  63: -1,
+  64: -1,
+  65: -1,
+  66: -1,
+  67: -1,
+  68: -1,
+  69: -1,
+  70: -1,
+  71: -1,
+  72: -1,
+  73: -1,
+  74: -1,
+  75: -1,
+  76: -1,
 
-const backbutton = (qindex) =>{
-  setYSelected(false) 
-    setNSelected (false)
+      }
+const updateAnsArray= (questionNumber, a ,b) =>{
+  //anserArray[questionNumber].useState(5) 
+}
+const backbutton = (questionNumber) =>{
+  if(questionNumber>0){
+  setQNumber(questionNumber-1)
+  console.log("Back ",questionNumber-1,":  ",anserArray[questionNumber-1])
+  changeColor(anserArray[questionNumber-1])
+  }
+  //updateAnsArray(questionNumber,true,false)
 }
   const nextbutton = (questionNumber)=>{
-   setYSelected(false) 
-    setNSelected (false)
+   
+   // console.log(anserArray[questionNumber], " ", questionNumber)
+    setQNumber(questionNumber+1)
+    changeColor(anserArray[questionNumber+1])
+   // console.log("Front ",questionNumber+1,":  ",anserArray[questionNumber+1])
   }
   const changeColor = (yn) =>{
-    if(yn == 0){
+    if(yn == 5){
+    console.log("Wow")
+    }else if(yn == -1){
+      setYSelected(false)
+      setNSelected (false)
+    }else if(yn == 1){
       setYSelected(true) 
       setNSelected (false)
     }else{
@@ -83,16 +186,16 @@ const backbutton = (qindex) =>{
       setNSelected (true)
     }
   }
-  
+
   return (
     <View style={styles.container}>
-      <Text> {questionArray.questionNumber} </Text>
-      <TouchableHighlight onPress={() => changeColor(0)} style={yselected ? [YNButton.selectedbutton] : [styles.longbutton]}>
+      <Text> {questionArray[questionNumber]} </Text>
+      <TouchableHighlight onPress={() => changeColor(1)} style={yselected ? [YNButton.selectedbutton] : [styles.longbutton]}>
             <Text style = {styles.text}>
                Yes  
             </Text>
       </TouchableHighlight>  
-      <TouchableHighlight onPress={() => changeColor(1)} style={nselected ? [YNButton.selectedbutton] : [styles.longbutton]}>
+      <TouchableHighlight onPress={() => changeColor(0)} style={nselected ? [YNButton.selectedbutton] : [styles.longbutton]}>
             <Text style = {styles.text}>
                No  
             </Text>
@@ -109,7 +212,7 @@ const backbutton = (qindex) =>{
             </Text>
       </TouchableHighlight>   
       </View>
-      <TouchableHighlight onPress={() => finalsubmit(questionNumber)} style={styles.longbutton}>
+      <TouchableHighlight onPress={() => finalsubmit(anserArray)} style={styles.longbutton}>
             <Text style = {styles.text}>
                Submit  
             </Text>

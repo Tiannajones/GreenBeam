@@ -123,7 +123,20 @@ const AuthStackScreen = () => (
     />
   </AuthStack.Navigator>
 );
-
+// const testStack = createStackNavigator();
+// const TestScreen = ()=>(
+//   <testStack.Navigator>
+//     <testStack.Screen name = "home" component={AddRestaurant}/>
+//   </testStack.Navigator>
+// )
+// const App = () => {
+//   return(
+//   <NavigationContainer>
+//     <TestScreen>
+//     </TestScreen>
+//   </NavigationContainer>
+//   )
+//  }
 const App = () => {
   let [fontsLoaded] = useFonts({"Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"),"Redressed_400Regular": require("./assets/Redressed_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf")});
 
