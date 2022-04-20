@@ -1,7 +1,7 @@
-import { Coustard_400Regular, useFonts } from 'expo-font';
+import { Redressed_400Regular, useFonts } from 'expo-font';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import { Settings, StyleSheet, Text, View, Alert } from 'react-native';
-
+import AppLoading from 'expo-app-loading';
 
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -163,47 +163,35 @@ const App = () => {
     loadJWT();
   }, [loadJWT]);
 
-  if (status === 'loading' && !fontsLoaded) {
+  if (status === 'loading') {
     return <Spinner />;
   }
 
-  try{
-    if (authContext?.authState?.authenticated === true) {
-      return (
-        <NavigationContainer>
-          <HomeDrawerScreen/>
-        </NavigationContainer>
-      );
-    } else {
-      return (
-        <NavigationContainer>
-          <AuthStackScreen/>
-        </NavigationContainer>
-      );
-    }
-  } catch (error){
-    console.log(error.message);
+  fontsLoaded = true;
+
+  if(!fontsLoaded){
+    return <AppLoading/>;
   }
-  
-  
-  /////////////////////////////////
-  const [number, onChangeNumber] = React.useState(null);
-  
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [userToken, setUserToken] = React.useState(null);
-
-
-  return (
-      <AuthContext.Provider value={authContext}>
-        <NavigationContainer>
-          {userToken ? ( 
+  else{
+    console.log("Moved past font loading");
+    try{
+      if (authContext?.authState?.authenticated === true) {
+        return (
+          <NavigationContainer>
             <HomeDrawerScreen/>
-          ) : ( 
+          </NavigationContainer>
+        );
+      } else {
+        return (
+          <NavigationContainer>
             <AuthStackScreen/>
-          )}
-        </NavigationContainer>         
-      </AuthContext.Provider>
-  );
-};
+          </NavigationContainer>
+        );
+      }
+    } catch (error){
+      console.log(error.message);
+    }
+  }
+}
 
 export default App;

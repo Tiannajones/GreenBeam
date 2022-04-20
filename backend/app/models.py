@@ -116,6 +116,11 @@ class YelpCategories(models.Model):
     wine_tasting_room = models.BooleanField(default=False)
     zapiekanka = models.BooleanField(default=False)
     
+    class SustainabilityRating(models.Model):
+        business_id = models.CharField(primary_key=True,max_length=22)
+        all_question_results = models.DecimalField(max_digits=76, decimal_places=0)
+        sus_rating = models.DecimalField(max_digits=3,decimal_places=2)
+        
     def __str__(self):
         return self.business_id
     

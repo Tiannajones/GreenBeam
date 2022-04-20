@@ -1,7 +1,6 @@
 import React from 'react';
 // import { SearchBar } from 'react-native-elements';
-//import Geolocation from '@react-native-community/geolocation'; // paste inside map view (for get location)
-import {request, PERMISSIONS} from 'react-native-permissions'; // for request location permission
+//import Geolocation from '@react-native-community/geolocation'; // paste inside map view (for get location) // for request location permission
 import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard  } from 'react-native';
 import { Platform } from 'react-native-web';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -59,8 +58,8 @@ export default function HomeLoad({ navigation }) {
 
     <TextInput
       style={styles.input}
-      onChangeText={onSearch}
-      value={Search}
+      onChangeText={console.log()}
+      value={console.log()}
       placeholder="Searching"
     />
      <View style={{height: 400,

@@ -1,4 +1,4 @@
-import { TouchableHighlight, StyleSheet, Text, View, TextInput,Alert, Keyboard  } from 'react-native';
+import { TouchableHighlight, StyleSheet, Text, View, TextInput,Alert,Image, Keyboard  } from 'react-native';
 import {styles} from './style.js';
 import { Dimensions } from 'react-native';
 import React, {useContext, useState} from 'react';
@@ -101,13 +101,13 @@ export default function LoginScreenload({ navigation }) {
 
 const popupStlye = StyleSheet.create({
    root: {  // this should make the field name red
-    '&$error': {
+    
       color: 'red'
-    }
+    
   },
   underline: {  // this should make the error message below the field red 
-    '&$error:after': {
+    
       borderBottomColor: 'red',
-    }
+    
   },
 });
