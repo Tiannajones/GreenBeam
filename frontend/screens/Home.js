@@ -75,9 +75,19 @@ export default function HomeLoad({ navigation }) {
       value={console.log()}
       placeholder="Searching"
     />
+    
      <View style={{height: 400,
    width: 400, backgroundColor: '#fff'}}>
-        
+        <MapView
+         style={mapstyles.map}
+         provider={PROVIDER_GOOGLE}
+         showsUserLocation
+         initialRegion={{
+         latitude: 30.633263,
+         longitude: -97.677986,
+         latitudeDelta: 0.0922,
+         longitudeDelta: 0.0421}}
+        />
       </View>
     <TouchableHighlight onPress={() => searchAttempt(Search)} style={styles.button}>
             <Text style = {styles.text}>

@@ -124,7 +124,7 @@ const AuthStackScreen = () => (
 );
 
 const App = () => {
-  let [fontsLoaded] = useFonts({Redressed_400Regular, "Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf")});
+  let [fontsLoaded] = useFonts({"Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"),"Redressed_400Regular": require("./assets/Redressed_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf")});
 
   const authContext = useContext(AuthContext);
   const [status, setStatus] = useState('loading');
@@ -166,8 +166,6 @@ const App = () => {
   if (status === 'loading') {
     return <Spinner />;
   }
-
-  fontsLoaded = true;
 
   if(!fontsLoaded){
     return <AppLoading/>;
