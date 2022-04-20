@@ -35,6 +35,19 @@ export default function HomeLoad({ navigation }) {
     </div>
   );
   
+  renderRestaurantBubble = ({item}) => 
+  <View> 
+    <Text>
+      
+    </Text>
+  </View>
+
+
+
+
+
+
+  
    // ReactDOM.render(<App />, document.getElementById('react'));
 
   return (
