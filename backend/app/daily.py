@@ -70,7 +70,7 @@ def populateData():
         print(serializer.errors)#prints the errors
         print("Restaurant entry has errors")
       print('--------------')
-
+      
       print(res_id)
       if serializer_categories.is_valid(): #checks to see if the data is able to be added to the model
         #print(serializer_categories.validated_data) #prints the data that has been cleared by the serializer
