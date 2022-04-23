@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from .serializers import YelpCategoriesSerializer, YelpRestaurantSerializer
 from .models import YelpRestaurant
 from . import yelp
+from django.contrib.gis.geos import Point
 
 #https://datagy.io/python-list-contains-item/?msclkid=44bac639bb3911eca06ef00e75741a0d
 known_category_aliases = ["acaibowls", "bagels", "bakeries", "beer_and_wine", "beverage_stores", "breweries", "brewpubs", "bubbletea", "butcher", "csa", "chimneycakes", "cideries", "coffee", "coffeeroasteries", "convenience", "cupcakes", "customcakes", "desserts", "distilleries", "diyfood", "donuts", "empanadas", "farmersmarket", "fooddeliveryservices", "foodtrucks", "gelato", "grocery", "honey", "icecream", "importedfood", "intlgrocery", "internetcafe", "juicebars", "kombucha", "meaderies", "organic_stores", "cakeshop", "piadina", "poke", "pretzels", "shavedice", "shavedsnow", "smokehouse", "gourmet", "candy", "cheese", "chocolate", "markets", "healthmarkets", "herbsandspices", "macarons", "meats", "oliveoil", "pastashops", "popcorn", "seafoodmarkets", "streetvendors", "tea", "waterstores", "wineries", "winetastingroom"]
@@ -31,8 +32,9 @@ def populateData():
       except ValueError:
         res_phone=None #if no phone number then set it to None (needed for restaurant to be added to model)
       #res_price=res["price"] price was causing a "KeyError: 'price'"
-      res_latitude=res["coordinates"]["latitude"]
-      res_longitude=res["coordinates"]["latitude"]
+      res_latitude=res["coordinates"]["latitude"] #accessory
+      res_longitude=res["coordinates"]["longitude"] #accesory
+      res_coordinates = Point(float(res_longitude), float(res_latitude), srid=4326)
       res_address=res["location"]["address1"]
       res_city=res["location"]["city"]
       res_state=res["location"]["state"]
@@ -43,7 +45,7 @@ def populateData():
       #deserializes all the yelp_data
       # Come back and add the categories stuff
       serializer = YelpRestaurantSerializer(data={"business_id":res_id,"name":res_name,"yelp_rating":res_rating,"phone_number":res_phone,
-                                                      "latitude":res_latitude,"longitude":res_longitude,"address":res_address,"city":res_city,
+                                                      "coordinates":res_coordinates,"address":res_address,"city":res_city,
                                                       "state":res_state,"country":res_country,"zip_code":res_zip,"image_url":res_imgurl,
                                                       "yelp_url":res_yelpurl},context={'request': None})
 

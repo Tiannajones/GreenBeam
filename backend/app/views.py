@@ -1,11 +1,12 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics, status
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .serializers import YelpRestaurantSerializer
 from .models import YelpRestaurant
 from . import daily #imports all functions from yelp.py
-
+from geopy.geocoders import Nominatim #for getCoordinatesFromAddress
+from rest_framework_gis.filterset import GeoFilterSet
 
 #ModelViewSet handles GET and POST requests
 class YelpRestaurantViewSet(viewsets.ModelViewSet):
@@ -17,6 +18,12 @@ class YelpRestaurantViewSet(viewsets.ModelViewSet):
 @api_view()
 @permission_classes([AllowAny])
 def home_view(request):
+  if request.method == 'GET':
+    latitude_user = request.query_params['latitude']
+    longitude_user = request.query_params['longitude']
+    radius = 15
+    
+    #find min and max 
   #latitude_user = request.query_params['latitude']
   #longitude_user = request.query_params['longitude']
   #radius_user = request.query_params['radius']
@@ -42,6 +49,24 @@ def add_all_restaurants_to_model(request):
 def delete_all_restaurants_in_model(request):
   daily.deleteData()
   return Response({'message':'we received your request'})
+ 
+#takes in an address and returns its latitude and longitude
+class GetCoordinatesFromAddress(generics.ListAPIView, GeoFilterSet):
+    def get(self, *args, **kwargs):
+        # We can check on the server side the location of the users, using request
+        # point = self.request.user.coordinates
+        # ?address=QUERY_ADDRESS
+        # QUERY_ADDRESS is the information user passes to the query
+        QUERY_ADDRESS = self.request.query_params.get('address', None)
+
+        if QUERY_ADDRESS not in [None, '']:
+            # here we can use the geopy library:
+            geolocator = Nominatim(user_agent="mysuperapp")
+            location = geolocator.geocode(QUERY_ADDRESS)
+            return Response({'coordinates': [location.latitude ,location.longitude]}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'No address was passed in the query'}, status=status.HTTP_400_BAD_REQUEST)
+ 
  
 #view that will allow restaurant owner to PUT/POST info over sustainability
 

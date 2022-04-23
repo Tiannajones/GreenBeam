@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db import models
+from django.contrib.gis.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -13,6 +13,7 @@ class YelpRestaurant(models.Model):
     # yelp_categories = models.AutoField()
     phone_number = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)],null=True)
     #price = models.CharField(max_length=5, default='')
+    coordinates = models.PointField(blank=False, null=True, srid=4326) #keeps hold of latitude and longitude and its for GeoDjango
     latitude = models.DecimalField(max_digits=30, decimal_places=15) #https://stackoverflow.com/questions/30706799/which-model-field-to-use-in-django-to-store-longitude-and-latitude-values
     longitude = models.DecimalField(max_digits=30, decimal_places=15)
     address = models.TextField(max_length=50, default='')
@@ -120,6 +121,7 @@ class YelpCategories(models.Model):
         business_id = models.CharField(primary_key=True,max_length=22)
         all_question_results = models.DecimalField(max_digits=76, decimal_places=0)
         sus_rating = models.DecimalField(max_digits=3,decimal_places=2)
+        current_question = models.PositiveIntegerField(validators=[MaxValueValidator(76)],null=True,default=0)
         
     def __str__(self):
         return self.business_id
