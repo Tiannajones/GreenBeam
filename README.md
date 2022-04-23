@@ -16,4 +16,5 @@ info: Django project utilizing Django Rest Framework to create an API
 
 ### How to use: 
 
+## Connect Frontend and Backend 
 
