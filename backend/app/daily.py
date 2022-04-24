@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from .serializers import YelpCategoriesSerializer, YelpRestaurantSerializer
-from .models import YelpCategories, YelpRestaurant
+from .serializers import SusRatingSerializer, YelpCategoriesSerializer, YelpRestaurantSerializer
+from .models import SustainabilityRating, YelpCategories, YelpRestaurant
 from . import yelp
 
 #https://datagy.io/python-list-contains-item/?msclkid=44bac639bb3911eca06ef00e75741a0d
@@ -87,6 +87,14 @@ def populateData():
         print(serializer_categories.errors)#prints the errors
         print("Categories entry has errors")
       print('--------------')
+      
+      
+      ratingserializer = SusRatingSerializer(data={"business_id":res_id})
+      if ratingserializer.is_valid():
+        print("Rating added to table")
+        ratingserializer.save()
+      else:
+        print(ratingserializer.errors)
 
     print("Number of restaurants added:",counter)
     isDataPopulated=True #changes isDataPopulated to True
@@ -99,6 +107,7 @@ def populateData():
 def deleteData():
   YelpRestaurant.objects.all().delete()
   YelpCategories.objects.all().delete()
+  SustainabilityRating.objects.all().delete() #just for testing
   global isDataPopulated
   isDataPopulated=False
   return isDataPopulated

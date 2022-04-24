@@ -31,11 +31,10 @@ class LocationQuerySet(models.QuerySet):
     #used in views.py for searching all restaurants the contain a category
     def category_restaurants(self,namesearch):
         return self.filter(Q(categories_title__contains=namesearch) | Q(categories_alias__contains=namesearch))
-        #return self.filter(categories_title__contains=namesearch)
     
 class SustainabilityRating(models.Model):
     business_id = models.CharField(primary_key=True,max_length=22)
-    all_question_results = models.DecimalField(max_digits=76, decimal_places=0)
+    all_question_results = models.TextField(max_length=77, default=2222222222222222222222222222222222222222222222222222222222222222222222222222222222)
     sus_rating = models.CharField(max_length=10,default='NR')
 
         
@@ -63,7 +62,7 @@ class YelpRestaurant(models.Model):
     categories_alias = models.TextField(max_length=200, default='',blank=True)
     categories_title = models.TextField(max_length=200, default='',blank=True)
     
-    #sus_rating = models.ForeignKey(SustainabilityRating,on_delete=models.CASCADE,default="NR")
+    #sus_rating = models.ForeignKey(SustainabilityRating,on_delete=models.PROTECT,default="NR")
     
     objects = LocationQuerySet.as_manager() #used for filtering 
     
