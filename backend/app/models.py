@@ -1,7 +1,5 @@
 
 from django.db import models
-from django.forms import DecimalField
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from django.core.validators import MaxValueValidator
@@ -20,6 +18,9 @@ class LocationQuerySet(models.QuerySet):
         d = 6371.0 * c
         return self.annotate(distance=d).order_by('distance').filter(distance__lt=y_km)
     
+    def get_restaurant(self,bid):
+        return self.filter(business_id=bid).distinct()
+    
 #Create table for the restaurant data or name Restuarants
 class YelpRestaurant(models.Model):
     business_id = models.CharField(primary_key=True,max_length=22)
@@ -37,7 +38,8 @@ class YelpRestaurant(models.Model):
     zip_code = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
     image_url = models.TextField(max_length=200,default='')
     yelp_url = models.TextField(max_length=500,default='')
-    objects = LocationQuerySet.as_manager()
+    
+    objects = LocationQuerySet.as_manager() #used for filtering 
     
 
     
