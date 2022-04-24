@@ -11,10 +11,14 @@ from django.db.models import F, FloatField
     
 class LocationQuerySet(models.QuerySet):
     def locations_near_x_within_y_km(self, current_lat, current_long, y_km):
-        dlat = Radians(F('latitude') - current_lat)
-        dlong = Radians(F('longitude') - current_long)
-        
-        return self.order_by('latitude')
+        dlat = Radians(F('latitude') - current_lat, output_field=FloatField())
+        dlong = Radians(F('longitude') - current_long, output_field=FloatField())
+        a = (Power(Sin(dlat/2.0,output_field=FloatField()), 2.0,output_field=FloatField()) + Cos(Radians(current_lat,output_field=FloatField()),output_field=FloatField()) 
+            * Cos(Radians(F('latitude'),output_field=FloatField()),output_field=FloatField()) * Power(Sin(dlong/2.0,output_field=FloatField()), 2.0,output_field=FloatField())
+            )
+        c = 2.0 * ATan2(Sqrt(a), Sqrt(1.0-a))
+        d = 6371.0 * c
+        return self.annotate(distance=d).order_by('distance').filter(distance__lt=y_km)
     
 #Create table for the restaurant data or name Restuarants
 class YelpRestaurant(models.Model):
