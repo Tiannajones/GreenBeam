@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 
 from django.core.validators import MaxValueValidator
 
@@ -27,6 +28,20 @@ class LocationQuerySet(models.QuerySet):
     def name_contains(self,namesearch):
         return self.filter(name__contains=namesearch)
     
+    #used in views.py for searching all restaurants the contain a category
+    def category_restaurants(self,namesearch):
+        return self.filter(Q(categories_title__contains=namesearch) | Q(categories_alias__contains=namesearch))
+        #return self.filter(categories_title__contains=namesearch)
+    
+class SustainabilityRating(models.Model):
+    business_id = models.CharField(primary_key=True,max_length=22)
+    all_question_results = models.DecimalField(max_digits=76, decimal_places=0)
+    sus_rating = models.CharField(max_length=10,default='NR')
+
+        
+    def __str__(self):
+        return self.business_id
+
 #Create table for the restaurant data or name Restuarants
 class YelpRestaurant(models.Model):
     business_id = models.CharField(primary_key=True,max_length=22)
@@ -44,6 +59,11 @@ class YelpRestaurant(models.Model):
     zip_code = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
     image_url = models.TextField(max_length=200,default='')
     yelp_url = models.TextField(max_length=500,default='')
+    
+    categories_alias = models.TextField(max_length=200, default='',blank=True)
+    categories_title = models.TextField(max_length=200, default='',blank=True)
+    
+    #sus_rating = models.ForeignKey(SustainabilityRating,on_delete=models.CASCADE,default="NR")
     
     objects = LocationQuerySet.as_manager() #used for filtering 
     
@@ -142,14 +162,7 @@ class YelpCategories(models.Model):
     wine_tasting_room = models.BooleanField(default=False)
     zapiekanka = models.BooleanField(default=False)
     
-class SustainabilityRating(models.Model):
-    business_id = models.CharField(primary_key=True,max_length=22)
-    all_question_results = models.DecimalField(max_digits=76, decimal_places=0)
-    sus_rating = models.DecimalField(max_digits=3,decimal_places=2)
 
-        
-    def __str__(self):
-        return self.business_id
     
 #LocationsNearMe = YelpRestaurant.objects.locations_near_x_within_y_km(30.636,97.662,10)
 #print(LocationsNearMe)

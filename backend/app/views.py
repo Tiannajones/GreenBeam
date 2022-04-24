@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .serializers import YelpRestaurantSerializer
-from .models import YelpRestaurant
+from .serializers import YelpCategoriesSerializer, YelpRestaurantSerializer
+from .models import YelpCategories, YelpRestaurant
 from . import daily #imports all functions from yelp.py
 
 
@@ -39,6 +39,14 @@ class SearchNameViewSet(viewsets.ModelViewSet):
         namesearch = self.request.query_params.get('search')
         queryset = YelpRestaurant.objects.name_contains(namesearch)
         return queryset
+#returns restaurants that match the name searched     
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = YelpRestaurantSerializer
+    def get_queryset(self):
+        categorysearch = self.request.query_params.get('search')
+        queryset = YelpRestaurant.objects.category_restaurants(categorysearch)
+        return queryset
+      
       
 #view that adds all the restaurants in Austin at the beginning of the day to the models
 @api_view()

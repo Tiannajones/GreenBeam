@@ -7,6 +7,7 @@ router.register(r'api/allrestaurants', views.YelpRestaurantViewSet)
 router.register(r'api/restaurantlist',views.RestaurantListViewSet, basename='RestaurantList')
 router.register(r'api/solorestaurant',views.SoloRestaurantViewSet, basename='SoloRestaurant')
 router.register(r'api/searchname',views.SearchNameViewSet, basename='SearchName')
+router.register(r'api/searchcategory',views.CategoryViewSet, basename='SearchCategory')
 #router.register(r'homeview',views.home_view, basename='HomeView')
 
 # Wire up our API using automatic URL routing.
