@@ -1,9 +1,20 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+
 from django.db import models
+from django.forms import DecimalField
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from django.core.validators import MaxValueValidator
+
+from django.db.models.functions import Radians, Power, Sin, Cos, ATan2, Sqrt, Radians
+from django.db.models import F, FloatField
+    
+class LocationQuerySet(models.QuerySet):
+    def locations_near_x_within_y_km(self, current_lat, current_long, y_km):
+        dlat = Radians(F('latitude') - current_lat)
+        dlong = Radians(F('longitude') - current_long)
+        
+        return self.order_by('latitude')
     
 #Create table for the restaurant data or name Restuarants
 class YelpRestaurant(models.Model):
@@ -22,6 +33,9 @@ class YelpRestaurant(models.Model):
     zip_code = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
     image_url = models.TextField(max_length=200,default='')
     yelp_url = models.TextField(max_length=500,default='')
+    objects = LocationQuerySet.as_manager()
+    
+
     
 #Create table for the categories 
 class YelpCategories(models.Model):
@@ -125,5 +139,6 @@ class SustainabilityRating(models.Model):
     def __str__(self):
         return self.business_id
     
-    
+#LocationsNearMe = YelpRestaurant.objects.locations_near_x_within_y_km(30.636,97.662,10)
+#print(LocationsNearMe)
     

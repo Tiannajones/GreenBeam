@@ -32,7 +32,7 @@ def populateData():
         res_phone=None #if no phone number then set it to None (needed for restaurant to be added to model)
       #res_price=res["price"] price was causing a "KeyError: 'price'"
       res_latitude=res["coordinates"]["latitude"]
-      res_longitude=res["coordinates"]["latitude"]
+      res_longitude=res["coordinates"]["longitude"]
       res_address=res["location"]["address1"]
       res_city=res["location"]["city"]
       res_state=res["location"]["state"]
