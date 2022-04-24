@@ -8,6 +8,7 @@ from django.db.models.functions import Radians, Power, Sin, Cos, ATan2, Sqrt, Ra
 from django.db.models import F, FloatField
     
 class LocationQuerySet(models.QuerySet):
+    #used in views.py for filtering restaurants to ones nearby user
     def locations_near_x_within_y_km(self, current_lat, current_long, y_km):
         dlat = Radians(F('latitude') - current_lat, output_field=FloatField())
         dlong = Radians(F('longitude') - current_long, output_field=FloatField())
@@ -18,8 +19,13 @@ class LocationQuerySet(models.QuerySet):
         d = 6371.0 * c
         return self.annotate(distance=d).order_by('distance').filter(distance__lt=y_km)
     
+    #used in views.py for retriving information about a specific restaurant
     def get_restaurant(self,bid):
         return self.filter(business_id=bid).distinct()
+    
+    #used in views.py for searching the name of a restaurant
+    def name_contains(self,namesearch):
+        return self.filter(name__contains=namesearch)
     
 #Create table for the restaurant data or name Restuarants
 class YelpRestaurant(models.Model):

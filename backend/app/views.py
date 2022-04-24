@@ -36,8 +36,8 @@ class SoloRestaurantViewSet(viewsets.ModelViewSet):
 class SearchNameViewSet(viewsets.ModelViewSet):
     serializer_class = YelpRestaurantSerializer
     def get_queryset(self):
-        businessid = self.request.query_params.get('bid')
-        queryset = YelpRestaurant.objects.get(business_id=businessid)
+        namesearch = self.request.query_params.get('search')
+        queryset = YelpRestaurant.objects.name_contains(namesearch)
         return queryset
       
 #view that adds all the restaurants in Austin at the beginning of the day to the models
