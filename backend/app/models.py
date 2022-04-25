@@ -18,7 +18,8 @@ class LocationQuerySet(models.QuerySet):
             )
         c = 2.0 * ATan2(Sqrt(a), Sqrt(1.0-a))
         d = 6371.0 * c
-        return self.annotate(distance=d).order_by('distance').filter(distance__lt=y_km)
+        self.update(distance=d)
+        return self.order_by('distance').filter(distance__lt=y_km)
     
     #used in views.py for retriving information about a specific restaurant
     def get_restaurant(self,bid):
@@ -26,7 +27,8 @@ class LocationQuerySet(models.QuerySet):
     
     #used in views.py for searching the name of a restaurant
     def name_contains(self,namesearch):
-        return self.filter(name__contains=namesearch)
+        nearby = self.locations_near_x_within_y_km(30.6367,-97.6626,3)
+        return nearby.filter(Q(name__contains=namesearch) | Q(categories_title__contains=namesearch) | Q(categories_alias__contains=namesearch))
     
     #used in views.py for searching all restaurants the contain a category
     def category_restaurants(self,namesearch):
@@ -58,6 +60,7 @@ class YelpRestaurant(models.Model):
     zip_code = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
     image_url = models.TextField(max_length=200,default='')
     yelp_url = models.TextField(max_length=500,default='')
+    distance = models.DecimalField(max_digits=30, decimal_places=2,default=0.00)
     
     categories_alias = models.TextField(max_length=200, default='',blank=True)
     categories_title = models.TextField(max_length=200, default='',blank=True)

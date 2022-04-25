@@ -28,7 +28,6 @@ export default function HomeLoad({ navigation }) {
   }, []);
 
   const searchAttempt = async () => {
-    //setStatus('loading');
     try {
       console.log(Search);
       let url = 'api/searchname/?search='+Search;
@@ -39,16 +38,6 @@ export default function HomeLoad({ navigation }) {
       console.log(error);
     }
   };
-
-  const [tmpArray] = useState([
-      // this is the original format
-      // instead needs to be the contents of the
-      // database... most likely implemented by backend
-      { name: "Jimmy Johns", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" },
-      { name: "Panda Express", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" },
-      { name: "Jimmy Johns", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" },
-      { name: "Panda Express", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" }
-    ]);
 
   return (
     <View style={styles.container}>
@@ -70,22 +59,19 @@ export default function HomeLoad({ navigation }) {
       <ScrollView>
         {RestaurantList.map(item => (
           <View style={stylet.listItem}>
-          <Text>
+
+          <Text >
           {item.name}
-
            </Text>
+
+          <Text >
+          {item.distance}
+          </Text>
+
           <Text key={item}>
-          
-           
-          {item.yelp_rating}
-         
-
           {item.address}
+          </Text>
 
-
-          
-
-        </Text>
         </View>
       ))}
     </ScrollView>
