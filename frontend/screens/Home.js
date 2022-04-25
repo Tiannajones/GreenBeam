@@ -2,12 +2,34 @@ import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard, Toucha
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import {styles} from './style.js';
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useContext, useEffect, useCallback } from 'react';
+import {AxiosContext} from '../context/AxiosContext';
+import {AuthContext} from '../context/AuthContext';
+import Spinner from './Spinner';
 import { block } from 'react-native-reanimated';
+
 export default function HomeLoad({ navigation }) {
-  const [enterGoal, setEnterGoal] = useState('');
-  const [courseGoals, setCourseGoals] = useState([]);
-   const [tmpArray] = useState([
+  const axiosContext = useContext(AxiosContext);
+  const authContext = useContext(AuthContext);
+  const [restaurantlist, setRestaurantList] = useState([]);
+  //const [isInitialized, setInitialized] = useState(false);
+  //const [status, setStatus] = useState('idle');
+  //const started = false;
+  const loadRestaurants = async () => {
+    //setStatus('loading');
+    try {
+      const response = await axiosContext.publicAxios.get('api/restaurantlist/');
+      console.log(response.data);
+      setRestaurantList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => { //loads the restaurants only once
+    loadRestaurants();
+  }, []);
+
+  const [tmpArray] = useState([
       // this is the original format
       // instead needs to be the contents of the
       // database... most likely implemented by backend
@@ -16,13 +38,7 @@ export default function HomeLoad({ navigation }) {
       { name: "Jimmy Johns", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" },
       { name: "Panda Express", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" }
     ]);
-  const goalInputHandler = enteredText => {
-    setEnterGoal(enteredText);
-  };
-  const addGoalHandler = () => {
-    setCourseGoals(currentGoals => [...currentGoals, enterGoal]);
-    // setEnterGoal('');
-  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -39,8 +55,9 @@ export default function HomeLoad({ navigation }) {
                Search
             </Text>
       </TouchableHighlight>
+      
       <ScrollView>
-        {tmpArray.map(item => (
+        {restaurantlist.map(item => (
           <View style={stylet.listItem}>
           <Text>
           {item.name}
@@ -49,16 +66,14 @@ export default function HomeLoad({ navigation }) {
           <Text key={item}>
           
            
-          {item.rating}
+          {item.yelp_rating}
          
 
-          {item.distance}
-
-
-          {item.categroies}
-
-
           {item.address}
+
+
+          
+
         </Text>
         </View>
       ))}
