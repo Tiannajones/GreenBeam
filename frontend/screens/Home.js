@@ -11,12 +11,10 @@ import { block } from 'react-native-reanimated';
 export default function HomeLoad({ navigation }) {
   const axiosContext = useContext(AxiosContext);
   const authContext = useContext(AuthContext);
-  const [restaurantlist, setRestaurantList] = useState([]);
-  //const [isInitialized, setInitialized] = useState(false);
-  //const [status, setStatus] = useState('idle');
-  //const started = false;
+  const [RestaurantList, setRestaurantList] = useState([]);
+  const [Search, setSearch] = React.useState('');
+
   const loadRestaurants = async () => {
-    //setStatus('loading');
     try {
       const response = await axiosContext.publicAxios.get('api/restaurantlist/');
       console.log(response.data);
@@ -28,6 +26,19 @@ export default function HomeLoad({ navigation }) {
   useEffect(() => { //loads the restaurants only once
     loadRestaurants();
   }, []);
+
+  const searchAttempt = async () => {
+    //setStatus('loading');
+    try {
+      console.log(Search);
+      let url = 'api/searchname/?search='+Search;
+      const response = await axiosContext.publicAxios.get(url);
+      console.log(response.data);
+      setRestaurantList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [tmpArray] = useState([
       // this is the original format
@@ -43,21 +54,21 @@ export default function HomeLoad({ navigation }) {
     <View style={styles.container}>
       <TextInput
       style={styles.input}
-      onChangeText={console.log("big")}
-      value={"Works"}
+      onChangeText={text => setSearch(text)}
+      value={Search}
       placeholder="Searching"
     />
      <View style={{height: 400,
    width: 400, backgroundColor: '#fff'}}>
       </View>
-      <TouchableHighlight onPress={() => searchAttempt(Search)} style={styles.button}>
+      <TouchableHighlight onPress={() => searchAttempt()} style={styles.button}>
             <Text style = {styles.text}>
                Search
             </Text>
       </TouchableHighlight>
       
       <ScrollView>
-        {restaurantlist.map(item => (
+        {RestaurantList.map(item => (
           <View style={stylet.listItem}>
           <Text>
           {item.name}
