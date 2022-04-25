@@ -57,10 +57,10 @@ export default function HomeLoad({ navigation }) {
       </TouchableHighlight>
       
       <ScrollView>
-        {RestaurantList.map(item => (
+        {RestaurantList.map((item,key) => (
           <View style={stylet.listItem}>
 
-          <Text >
+          <Text style={stylet.name} >
           {item.name}
            </Text>
 
@@ -68,7 +68,7 @@ export default function HomeLoad({ navigation }) {
           {item.distance} miles
           </Text>
 
-          <Text key={item}>
+          <Text key={key}>
           {item.address}
           </Text>
 
@@ -95,18 +95,23 @@ const stylet = StyleSheet.create({
   },
   listItem: {
     padding: 5,
-    backgroundColor: '#ccc',
-    borderColor: 'black',
+    backgroundColor: '#028090',
+    borderColor: '#f0f3bd',
     borderWidth: 4,
     marginVertical: 2,
-    height:80,
-    width: 215,
+    height:105,
+    width: 300,
     letterSpacing:1,
     textDecorationColor: 'red',
     textShadowColor:'gray',
-   
-    
   },
+  name: {
+    fontSize: 20,
+    color: '#f0f3bd',
+     borderColor: 'black',
+     fontFamily: 'OleoScript_400Regular',
+ },
+  
 });
 
 

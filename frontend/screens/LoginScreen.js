@@ -65,8 +65,8 @@ export default function LoginScreenload({ navigation }) {
     
   return (
       <View style={styles.container}> 
-      <Text style = {{fontSize:0.2*fontwidth,fontFamily: 'Redressed_400Regular',color: '#fff',}}> Green Beam  </Text>
-      <Image source = {require('./greenbeamlogo.png')} style = {{ width: '80%', height: '30%',marginTop: 50 ,marginBottom: 30}}/>
+      <Text style = {{fontSize:0.2*fontwidth,fontFamily: 'Redressed_400Regular',color: '#f0f3bd',textShadowColor: '#028090', textShadowOffset : {width: 5, height: 10}, textShadowRadius: 10}}> Green Beam  </Text>
+      <Image source = {require('./greenbeamlogo.png')} style = {{ width: '48%', height:'25%',marginTop: 10 ,marginBottom: 30}}/>
       <TextInput
         style={styles.input}
         onChangeText={text => setEmail(text)}

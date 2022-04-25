@@ -42,6 +42,7 @@ export const styles= StyleSheet.create({
   },
   text: {
      fontSize: 20,
+     color: '#028090',
       borderColor: 'black',
       fontFamily: 'OleoScript_400Regular',
   },
