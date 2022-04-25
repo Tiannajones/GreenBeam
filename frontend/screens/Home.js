@@ -65,7 +65,7 @@ export default function HomeLoad({ navigation }) {
            </Text>
 
           <Text >
-          {item.distance}
+          {item.distance} miles
           </Text>
 
           <Text key={item}>

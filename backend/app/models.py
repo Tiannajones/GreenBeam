@@ -17,7 +17,8 @@ class LocationQuerySet(models.QuerySet):
             * Cos(Radians(F('latitude'),output_field=FloatField()),output_field=FloatField()) * Power(Sin(dlong/2.0,output_field=FloatField()), 2.0,output_field=FloatField())
             )
         c = 2.0 * ATan2(Sqrt(a), Sqrt(1.0-a))
-        d = 6371.0 * c
+        d = 6371.0 * c #in km
+        d = d * 0.62137 #in miles
         self.update(distance=d)
         return self.order_by('distance').filter(distance__lt=y_km)
     
