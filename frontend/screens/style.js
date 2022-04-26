@@ -53,6 +53,8 @@ export const styles= StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     backgroundColor: "#f0f3bd",
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'OleoScript_400Regular',
+    fontSize: 20
   },
 });
