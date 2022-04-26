@@ -59,7 +59,7 @@ export default function HomeLoad({ navigation }) {
         {RestaurantList.map((item,key) => (
           <Marker
             key={key}
-            coordinate={{ latitude : item.latitude , longitude : item.longitude }}
+            coordinate={{ latitude : Number(item.latitude) , longitude : Number(item.longitude) }}
             title={item.name}
           />
         ))}
