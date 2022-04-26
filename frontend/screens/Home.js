@@ -45,7 +45,7 @@ export default function HomeLoad({ navigation }) {
       style={styles.input}
       onChangeText={text => setSearch(text)}
       value={Search}
-      placeholder="Searching"
+      placeholder="Search..."
     />
   
      <View style={{height: 400, width: 400, backgroundColor: '#fff'}}>
@@ -144,10 +144,10 @@ const stylet = StyleSheet.create({
     textShadowColor:'gray',
   },
   name: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#f0f3bd',
      borderColor: 'black',
-     fontFamily: 'OleoScript_400Regular',
+     fontFamily: 'Righteous-Regular',
  },
   
 });
