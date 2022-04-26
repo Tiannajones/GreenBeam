@@ -151,9 +151,7 @@ var anserArray = {
   73: -1,
   74: -1,
   75: -1,
-  76: -1,
-
-      }
+  76: -1,}
 const updateAnsArray= (questionNumber, a ,b) =>{
   //anserArray[questionNumber].useState(5) 
 }
@@ -170,7 +168,7 @@ const backbutton = (questionNumber) =>{
    // console.log(anserArray[questionNumber], " ", questionNumber)
     setQNumber(questionNumber+1)
     changeColor(anserArray[questionNumber+1])
-   // console.log("Front ",questionNumber+1,":  ",anserArray[questionNumber+1])
+   console.log("Front ",questionNumber+1,":  ",anserArray[questionNumber+1])
   }
   const changeColor = (yn) =>{
     if(yn == 5){
@@ -186,21 +184,25 @@ const backbutton = (questionNumber) =>{
       setNSelected (true)
     }
   }
-
+//{questionArray[questionNumber]}
   return (
     <View style={styles.container}>
-      <Text> {questionArray[questionNumber]} </Text>
-      <TouchableHighlight onPress={() => changeColor(1)} style={yselected ? [YNButton.selectedbutton] : [styles.longbutton]}>
+      <View style={addRestaurantStlye.textContainer}>
+           <Text style = {addRestaurantStlye.questionText}>
+              {questionArray[questionNumber]} 
+            </Text>
+      </View>
+      <TouchableHighlight onPress={() => changeColor(1)} style={yselected ? [addRestaurantStlye.selectedbutton] : [styles.longbutton]}>
             <Text style = {styles.text}>
                Yes  
             </Text>
       </TouchableHighlight>  
-      <TouchableHighlight onPress={() => changeColor(0)} style={nselected ? [YNButton.selectedbutton] : [styles.longbutton]}>
+      <TouchableHighlight onPress={() => changeColor(0)} style={nselected ? [addRestaurantStlye.selectedbutton] : [styles.longbutton]}>
             <Text style = {styles.text}>
                No  
             </Text>
       </TouchableHighlight>  
-      <View style= {{height: 80,  width: '100%',  backgroundColor: "#19b194", flexDirection: 'row'}}>
+      <View style= {{height: 80,  width: '90%',  backgroundColor: "#19b194", flexDirection: 'row', alignItems: "center" }}>
        <TouchableHighlight onPress={() => backbutton(questionNumber)} style={styles.addrestbutton}>
             <Text style = {styles.text}>
                Back 
@@ -222,7 +224,7 @@ const backbutton = (questionNumber) =>{
   );
 }
 
-const YNButton= StyleSheet.create({
+const addRestaurantStlye= StyleSheet.create({
    selectedbutton: {
     backgroundColor: "green",
     alignItems: 'center',
@@ -232,4 +234,22 @@ const YNButton= StyleSheet.create({
     height: 40,
     width: '85%',
   },
+   button: {
+    backgroundColor: "#f0f3bd",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    margin: 8,
+    height: 40,
+    width: 180,
+  },
+  questionText:{
+    fontSize: 20,
+ },
+  textContainer: {
+  height: "30%",
+  width: "85%", 
+  backgroundColor: '#f0f3bd',
+  },
+  
 });
