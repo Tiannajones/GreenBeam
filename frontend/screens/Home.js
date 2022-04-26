@@ -1,4 +1,4 @@
-import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, Alert, ScrollView  } from 'react-native';
+import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, Alert, ScrollView, Image  } from 'react-native';
 import MapView, {Marker,PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import {styles} from './style.js';
@@ -61,7 +61,14 @@ export default function HomeLoad({ navigation }) {
             key={key}
             coordinate={{ latitude : Number(item.latitude) , longitude : Number(item.longitude) }}
             title={item.name}
+          >
+          <Image
+                source={require('../assets/map_marker.png')}
+                style={{width: 26, height: 35}}
+                resizeMode="center"
+                resizeMethod = "resize"
           />
+          </Marker>
         ))}
         </MapView>
       </View>
