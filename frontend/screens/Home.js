@@ -92,14 +92,14 @@ export default function HomeLoad({ navigation }) {
               <Image
                 style={{
                   flex: 1,
-                  width: 26, 
-                  height: 35,
+                  width: 39, 
+                  height: 53,
                   position: 'absolute',
-                  right: 10,
+                  right: 20,
                 }}
                 resizeMode="center"
                 resizeMethod = "resize"
-                source={require('./greenbeamlogo.png')}
+                source={require('../assets/not-rated.png')}
               />
               <Text key={item.distance} style={{position: 'absolute', left: 0}}>
                 {item.distance} miles
