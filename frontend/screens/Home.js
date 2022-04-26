@@ -1,5 +1,5 @@
 import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, Alert, ScrollView  } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, {Marker,PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import {styles} from './style.js';
 import React, { Component, useState, useContext, useEffect, useCallback } from 'react';
@@ -47,9 +47,25 @@ export default function HomeLoad({ navigation }) {
       value={Search}
       placeholder="Searching"
     />
-     <View style={{height: 400,
-   width: 400, backgroundColor: '#fff'}}>
+  
+     <View style={{height: 400, width: 400, backgroundColor: '#fff'}}>
+      <MapView style={StyleSheet.absoluteFillObject}
+        initialRegion={{
+          latitude: 30.633263,
+          longitude: -97.677986,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}>
+        {RestaurantList.map((item,key) => (
+          <Marker
+            key={key}
+            coordinate={{ latitude : item.latitude , longitude : item.longitude }}
+            title={item.name}
+          />
+        ))}
+        </MapView>
       </View>
+      
       <TouchableHighlight onPress={() => searchAttempt()} style={styles.button}>
             <Text style = {styles.text}>
                Search
