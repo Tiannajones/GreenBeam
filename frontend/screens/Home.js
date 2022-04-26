@@ -87,9 +87,24 @@ export default function HomeLoad({ navigation }) {
           {item.name}
            </Text>
 
-          <Text key={item.distance}>
-          {item.distance} miles
-          </Text>
+          
+           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 0}}>
+              <Image
+                style={{
+                  flex: 1,
+                  width: 26, 
+                  height: 35,
+                  position: 'absolute',
+                  right: 10,
+                }}
+                resizeMode="center"
+                resizeMethod = "resize"
+                source={require('./greenbeamlogo.png')}
+              />
+              <Text key={item.distance} style={{position: 'absolute', left: 0}}>
+                {item.distance} miles
+              </Text>
+          </View>
 
           <Text key={item.address}>
           {item.address}
