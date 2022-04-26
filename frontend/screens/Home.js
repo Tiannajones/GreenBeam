@@ -58,17 +58,17 @@ export default function HomeLoad({ navigation }) {
       
       <ScrollView>
         {RestaurantList.map((item,key) => (
-          <View style={stylet.listItem}>
+          <View style={stylet.listItem} key={item.name}>
 
-          <Text style={stylet.name} >
+          <Text style={stylet.name} key={item.name} >
           {item.name}
            </Text>
 
-          <Text >
+          <Text key={item.distance}>
           {item.distance} miles
           </Text>
 
-          <Text key={key}>
+          <Text key={item.address}>
           {item.address}
           </Text>
 

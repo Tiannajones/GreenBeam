@@ -34,8 +34,6 @@ export default function LoginScreenload({ navigation }) {
     const {publicAxios} = useContext(AxiosContext);
   
     const onLogin = async () => {
-      console.log(Email)
-      console.log(Password)
       try {
         const response = await publicAxios.post('api/token/', {
           email: Email,
