@@ -1,62 +1,125 @@
-import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, Alert, ScrollView  } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { TouchableHighlight, StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, Alert, ScrollView, Image  } from 'react-native';
+import MapView, {Marker,PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import {styles} from './style.js';
-import React, { Component, useState } from 'react';
-
+import React, { Component, useState, useContext, useEffect, useCallback } from 'react';
+import {AxiosContext} from '../context/AxiosContext';
+import {AuthContext} from '../context/AuthContext';
+import Spinner from './Spinner';
+import { block } from 'react-native-reanimated';
 
 export default function HomeLoad({ navigation }) {
-  const [enterGoal, setEnterGoal] = useState('');
-  const [courseGoals, setCourseGoals] = useState([]);
-   const [tmpArray] = useState([
-      // this is the original format
-      // instead needs to be the contents of the
-      // database... most likely implemented by backend
-      { name: "Jimmy Johns", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" },
-      { name: "Panda Express", rating: 75, distance: "1.2", categories: "sandwitch", address: "950 W University Ave Ste. 201", url: "www.google.com" }
-    ]);
-  const goalInputHandler = enteredText => {
-    setEnterGoal(enteredText);
-  };
+  const axiosContext = useContext(AxiosContext);
+  const authContext = useContext(AuthContext);
+  const [RestaurantList, setRestaurantList] = useState([]);
+  const [Search, setSearch] = React.useState('');
 
-  const addGoalHandler = () => {
-    setCourseGoals(currentGoals => [...currentGoals, enterGoal]);
-    // setEnterGoal('');
+  const loadRestaurants = async () => {
+    try {
+      const response = await axiosContext.publicAxios.get('api/restaurantlist/');
+      console.log(response.data);
+      setRestaurantList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => { //loads the restaurants only once
+    loadRestaurants();
+  }, []);
+
+  const searchAttempt = async () => {
+    try {
+      console.log(Search);
+      let url = 'api/searchname/?search='+Search;
+      const response = await axiosContext.publicAxios.get(url);
+      console.log(response.data);
+      setRestaurantList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <View style={styles.container}>
       <TextInput
       style={styles.input}
-      onChangeText={console.log("big")}
-      value={"Works"}
-      placeholder="Searching"
+      onChangeText={text => setSearch(text)}
+      value={Search}
+      placeholder="Search..."
     />
-     <View style={{height: 400,
-   width: 400, backgroundColor: '#fff'}}>
+  
+     <View style={{height: 400, width: 400, backgroundColor: '#fff'}}>
+      <MapView style={StyleSheet.absoluteFillObject}
+        initialRegion={{
+          latitude: 30.633263,
+          longitude: -97.677986,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}>
+        {RestaurantList.map((item,key) => (
+          <Marker
+            key={key}
+            coordinate={{ latitude : Number(item.latitude) , longitude : Number(item.longitude) }}
+            title={item.name}
+          >
+          <Image
+                source={require('../assets/map_marker.png')}
+                style={{width: 26, height: 35}}
+                resizeMode="center"
+                resizeMethod = "resize"
+          />
+          </Marker>
+        ))}
+        </MapView>
       </View>
-      <TouchableHighlight onPress={() => searchAttempt(Search)} style={styles.button}>
+      
+      <TouchableHighlight onPress={() => searchAttempt()} style={styles.button}>
             <Text style = {styles.text}>
                Search
             </Text>
       </TouchableHighlight>
+      
       <ScrollView>
-        {tmpArray.map(item => (
-          <View>
-            <Text style={stylet.listItem} key={item}>
-            {item.name} 
-          </Text>
-          <Text style={stylet.listItem} key={item}>
-            {item.rating} 
-          </Text>
-          </View>
-          
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
+        {RestaurantList.map((item,key) => (
+          <View style={stylet.listItem} key={item.name}>
 
+          <Text style={stylet.name} key={item.name} >
+          {item.name}
+           </Text>
+
+          
+           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 0}}>
+              <Image
+                style={{
+                  flex: 1,
+                  width: 39, 
+                  height: 53,
+                  position: 'absolute',
+                  right: 20,
+                  
+                }}
+                resizeMode="center"
+                resizeMethod = "resize"
+                source={require('../assets/not-rated.png')}
+              />
+              <Text key={item.distance} style={{position: 'absolute', left: 0}}>
+                {item.distance} miles
+              </Text>
+          </View>
+
+          <Text key={item.address}>
+          {item.address}
+          </Text>
+          <Text key={item.categories_title}>
+          {item.categories_title}
+          </Text>
+
+        </View>
+      ))}
+    </ScrollView>
+  </View>
+);
+};
 const stylet = StyleSheet.create({
   screen: {
     padding: 50,
@@ -73,12 +136,22 @@ const stylet = StyleSheet.create({
     width: '80%',
   },
   listItem: {
-    padding: 10,
-    backgroundColor: '#ccc',
-    borderColor: 'black',
-    borderWidth: 1,
-    marginVertical: 10,
+    padding: 5,
+    backgroundColor: '#028090',
+    borderColor: '#f0f3bd',
+    borderWidth: 4,
+    marginVertical: 2,
+    height:105,
+    width: 300,
+    letterSpacing:1,
+    textDecorationColor: 'red',
+    textShadowColor:'gray',
   },
+  name: {
+    fontSize: 18,
+    color: '#f0f3bd',
+     borderColor: 'black',
+     fontFamily: 'Righteous-Regular',
+ },
+  
 });
-
-
