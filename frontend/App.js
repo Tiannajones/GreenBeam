@@ -3,7 +3,6 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import { Settings, StyleSheet, Text, View, Alert } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
-import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { StatusBar } from 'expo-status-bar';
@@ -19,10 +18,9 @@ import * as Keychain from 'react-native-keychain';
  **/
 import AddRestaurant from "./screens/AddRestaurant"
 import CreateAccount from "./screens/CreateAccount"
-import Favorites from "./screens/Favorites"
+import helpInformation from "./screens/helpInformation"
 import Home from "./screens/Home"
 import LoginScreen from "./screens/LoginScreen"
-import Profile from "./screens/Profile"
 import Restaurant from "./screens/Restaurant"
 import SettingScreen from "./screens/SettingScreen"
 import Spinner from './screens/Spinner';
@@ -90,10 +88,9 @@ const HomeDrawerScreen  = () => (
   <HomeDrawer.Navigator initialRouteName="HomeStack" screenOptions={{  headerBackVisible : 'false' , headerStyle: {backgroundColor: '#f0f3bd'},headerTintColor: "#028090",headerTitleStyle: {fontFamily:"OleoScript_400Regular"},drawerActiveBackgroundColor:'#02c39a', drawerStyle: {backgroundColor: "#f0f3bd"}}}
   drawerContent={(props) => <CustomDrawerContent {...props} />}>
     <HomeDrawer.Screen name="HomeStack" component={HomeStackScreen} options={{title :"Home", headerTitle : "" }}/> 
-    <HomeDrawer.Screen name="Profile" component={Profile} />
-    <HomeDrawer.Screen name="Favorites" component={Favorites} />
+    <HomeDrawer.Screen name="Help/Information" component={helpInformation} />
     <HomeDrawer.Screen name="Settings" component={SettingScreen} />
-    <HomeDrawer.Screen name="AddRestaurant" component={AddRestaurant} />
+    <HomeDrawer.Screen name="Add Restaurant" component={AddRestaurant} />
   </HomeDrawer.Navigator>
 );
 
@@ -123,87 +120,88 @@ const AuthStackScreen = () => (
     />
   </AuthStack.Navigator>
 );
-// const testStack = createStackNavigator();
-// const TestScreen = ()=>(
-//   <testStack.Navigator>
-//     <testStack.Screen name = "home" component={AddRestaurant}/>
-//   </testStack.Navigator>
-// )
-// const App = () => {
-//   return(
-//   <NavigationContainer>
-//     <TestScreen>
-//     </TestScreen>
-//   </NavigationContainer>
-//   )
-//  }
+const testStack = createStackNavigator();
+const TestScreen = ()=>(
+  <testStack.Navigator>
+    <testStack.Screen name = "home" component={helpInformation}/>
+  </testStack.Navigator>
+)
 const App = () => {
-  let [fontsLoaded] = useFonts({"Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"),"Redressed_400Regular": require("./assets/Redressed_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf"),"Righteous-Regular": require("./assets/Righteous-Regular.ttf")});
+  return(
+  <NavigationContainer>
+    <TestScreen>
+    </TestScreen>
+  </NavigationContainer>
+  )
+ }
 
-  const authContext = useContext(AuthContext);
-  const [status, setStatus] = useState('loading');
+// const App = () => {
+//   let [fontsLoaded] = useFonts({"Cabin_400Regular": require("./assets/Cabin_400Regular.ttf"),"Redressed_400Regular": require("./assets/Redressed_400Regular.ttf"), "OleoScript_400Regular": require("./assets/OleoScript_400Regular.ttf"),"Righteous-Regular": require("./assets/Righteous-Regular.ttf")});
 
-  const loadJWT = useCallback(async () => {
-    try {
-      const value = await Keychain.getGenericPassword();
-      const jwt = JSON.parse(value.password);
+//   const authContext = useContext(AuthContext);
+//   const [status, setStatus] = useState('loading');
 
-      authContext.setAuthState({
-        accessToken: jwt.accessToken || null,
-        refreshToken: jwt.refreshToken || null,
-        authenticated: jwt.accessToken !== null,
-      });
-      setStatus('success');
-    } catch (error) {
-      setStatus('error');
-      console.log(`Keychain Error: ${error.message}`);
-      try{
-        authContext.setAuthState({
-          accessToken: null,
-          refreshToken: null,
-          authenticated: false,
-        });
-      } catch (error){
-        console.log(`setAuthState Error: ${error.message}`);
-      }
-    }
-  }, []);
+//   const loadJWT = useCallback(async () => {
+//     try {
+//       const value = await Keychain.getGenericPassword();
+//       const jwt = JSON.parse(value.password);
 
-  //DEBUG
+//       authContext.setAuthState({
+//         accessToken: jwt.accessToken || null,
+//         refreshToken: jwt.refreshToken || null,
+//         authenticated: jwt.accessToken !== null,
+//       });
+//       setStatus('success');
+//     } catch (error) {
+//       setStatus('error');
+//       console.log(`Keychain Error: ${error.message}`);
+//       try{
+//         authContext.setAuthState({
+//           accessToken: null,
+//           refreshToken: null,
+//           authenticated: false,
+//         });
+//       } catch (error){
+//         console.log(`setAuthState Error: ${error.message}`);
+//       }
+//     }
+//   }, []);
 
-  console.log(authContext?.authState?.authenticated); //DEBUG
+//   //DEBUG
 
-  useEffect(() => {
-    loadJWT();
-  }, [loadJWT]);
+//   console.log(authContext?.authState?.authenticated); //DEBUG
 
-  if (status === 'loading') {
-    return <Spinner />;
-  }
+//   useEffect(() => {
+//     loadJWT();
+//   }, [loadJWT]);
 
-  if(!fontsLoaded){
-    return <AppLoading/>;
-  }
-  else{
-    console.log("Moved past font loading");
-    try{
-      if (authContext?.authState?.authenticated === true) {
-        return (
-          <NavigationContainer>
-            <HomeDrawerScreen/>
-          </NavigationContainer>
-        );
-      } else {
-        return (
-          <NavigationContainer>
-            <AuthStackScreen/>
-          </NavigationContainer>
-        );
-      }
-    } catch (error){
-      console.log(error.message);
-    }
-  }
-}
+//   if (status === 'loading') {
+//     return <Spinner />;
+//   }
+
+//   if(!fontsLoaded){
+//     return <AppLoading/>;
+//   }
+//   else{
+//     console.log("Moved past font loading");
+//     try{
+//       if (authContext?.authState?.authenticated === true) {
+//         return (
+//           <NavigationContainer>
+//             <HomeDrawerScreen/>
+//           </NavigationContainer>
+//         );
+//       } else {
+//         return (
+//           <NavigationContainer>
+//             <AuthStackScreen/>
+//           </NavigationContainer>
+//         );
+//       }
+//     } catch (error){
+//       console.log(error.message);
+//     }
+//   }
+// }
 
 export default App;

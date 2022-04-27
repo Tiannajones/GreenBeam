@@ -4,22 +4,12 @@ import {styles} from './style.js';
 import React, { Component } from 'react';
 import { useState } from 'react';
 
-
-renderRestaurantBubble = ({item}) => 
-<View>
-  <Text>
-
-  </Text>
-</View>
-
 class ArrayExample extends Component{
   constructor(props){
     super(props);
       
   }
 }
-
-
 export default function App() {
   const [questionNumber, setQNumber] = useState(0) 
   const [yselected, setYSelected] = useState(false)
@@ -104,9 +94,7 @@ export default function App() {
  72: "The company donates to food banks or charities to avoid wasting food from products suitable for consumption.",
  73: "The company has initiatives to promote healthy eating education for the local community (schools, colleges, community groups).",
  74: "The company has a policy in place with the supplier or purchase specification that favors the acquisition of local products for foods such as dairy products, meat, fruits, and vegetables.",
- 75: "Does the company purchase one or more products from a charitable foundation or a social enterprise that provides social impact? (For example, a product made from leftover food, bread from a social enterprise bakery, etc.)."
-
-  
+ 75: "Does the company purchase one or more products from a charitable foundation or a social enterprise that provides social impact? (For example, a product made from leftover food, bread from a social enterprise bakery, etc.)." 
 }
 //https://www.youtube.com/watch?v=KcC8KZ_Ga2M
 var anserArray = {
