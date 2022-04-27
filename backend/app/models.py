@@ -8,7 +8,7 @@ from django.core.validators import MaxValueValidator
 from django.db.models.functions import Radians, Power, Sin, Cos, ATan2, Sqrt, Radians
 from django.db.models import F, FloatField
     
-class LocationQuerySet(models.QuerySet):
+class RestaurantQuerySet(models.QuerySet):
     #used in views.py for filtering restaurants to ones nearby user
     def locations_near_x_within_y_km(self, current_lat, current_long, y_km):
         dlat = Radians(F('latitude') - current_lat, output_field=FloatField())
@@ -23,18 +23,19 @@ class LocationQuerySet(models.QuerySet):
         return self.order_by('distance').filter(distance__lt=y_km)
     
     #used in views.py for retriving information about a specific restaurant
-    def get_restaurant(self,bid):
-        return self.filter(business_id=bid).distinct()
+    def get_restaurant(self,b_id):
+        return self.filter(business_id=b_id).distinct()
     
     #used in views.py for searching the name of a restaurant
-    def name_contains(self,namesearch):
+    def general_search(self,search):
         nearby = self.locations_near_x_within_y_km(30.6367,-97.6626,3)
-        return nearby.filter(Q(name__contains=namesearch) | Q(categories_title__contains=namesearch) | Q(categories_alias__contains=namesearch))
+        return nearby.filter(Q(name__contains=search) | Q(categories_title__contains=search) | Q(categories_alias__contains=search))
     
     #used in views.py for searching all restaurants the contain a category
-    def category_restaurants(self,namesearch):
-        return self.filter(Q(categories_title__contains=namesearch) | Q(categories_alias__contains=namesearch))
+    def category_restaurants(self,categorysearch):
+        return self.filter(Q(categories_title__contains=categorysearch) | Q(categories_alias__contains=categorysearch))
     
+#table that keeps track of sustainability rating, is not deleted with YelpRestaurants every day
 class SustainabilityRating(models.Model):
     business_id = models.CharField(primary_key=True,max_length=22)
     all_question_results = models.TextField(max_length=77, default=2222222222222222222222222222222222222222222222222222222222222222222222222222222222)
@@ -68,7 +69,7 @@ class YelpRestaurant(models.Model):
     
     #sus_rating = models.ForeignKey(SustainabilityRating,on_delete=models.PROTECT,default="NR")
     
-    objects = LocationQuerySet.as_manager() #used for filtering 
+    objects = RestaurantQuerySet.as_manager() #used for filtering 
     
 
     

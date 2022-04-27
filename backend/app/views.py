@@ -36,8 +36,8 @@ class SoloRestaurantViewSet(viewsets.ModelViewSet):
 class SearchNameViewSet(viewsets.ModelViewSet):
     serializer_class = YelpRestaurantSerializer
     def get_queryset(self):
-        namesearch = self.request.query_params.get('search')
-        queryset = YelpRestaurant.objects.name_contains(namesearch)
+        generalsearch = self.request.query_params.get('search')
+        queryset = YelpRestaurant.objects.general_search(generalsearch)
         return queryset
 #returns restaurants that match the name searched     
 class CategoryViewSet(viewsets.ModelViewSet):
