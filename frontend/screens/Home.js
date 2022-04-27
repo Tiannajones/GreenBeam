@@ -96,6 +96,7 @@ export default function HomeLoad({ navigation }) {
                   height: 53,
                   position: 'absolute',
                   right: 20,
+                  
                 }}
                 resizeMode="center"
                 resizeMethod = "resize"
@@ -108,6 +109,9 @@ export default function HomeLoad({ navigation }) {
 
           <Text key={item.address}>
           {item.address}
+          </Text>
+          <Text key={item.categories_title}>
+          {item.categories_title}
           </Text>
 
         </View>
