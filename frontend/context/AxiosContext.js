@@ -1,3 +1,4 @@
+//from https://blog.logrocket.com/react-native-jwt-authentication-using-axios-interceptors/ 
 import React, {createContext, useContext} from 'react';
 import axios from 'axios';
 import {AuthContext} from './AuthContext';
@@ -39,7 +40,7 @@ const AxiosProvider = ({children}) => {
     const options = {
       method: 'POST',
       data,
-      url: 'http://10.116.148.58:8000/api/token/refresh',
+      url: 'http://10.116.148.58:8000/api/token/refresh/',
     };
 
     return axios(options)

@@ -4,22 +4,12 @@ import {styles} from './style.js';
 import React, { Component } from 'react';
 import { useState } from 'react';
 
-
-renderRestaurantBubble = ({item}) => 
-<View>
-  <Text>
-
-  </Text>
-</View>
-
 class ArrayExample extends Component{
   constructor(props){
     super(props);
       
   }
 }
-
-
 export default function App() {
   const [questionNumber, setQNumber] = useState(0) 
   const [yselected, setYSelected] = useState(false)
@@ -29,7 +19,7 @@ export default function App() {
     console.log(ans)
   }
   const questionArray ={
-  0:"The company has goals for the rational use of water, such as the use limit per activity (for example: for each meal served, 10 liters of water are spent).", 
+   0:"The company has goals for the rational use of water, such as the use limit per activity (for example: for each meal served, 10 liters of water are spent).", 
   1: "The company has reduced water consumption by at least 15% in the last six months, or by 30% in the previous 12 months monitored by the record (see history of water bills).",
   2: "The company performs preventive maintenance of the plumbing.",
   3: "The company, in case of a water leak, performs immediate repair.",
@@ -71,7 +61,40 @@ export default function App() {
  39: "The company’s supplier produces farmed fish and has a sustainability certification (for example, organic).",
  40: "The company does not use ingredients or products with transgenic ingredients in its composition in the production of meals.",
  41: "The company prioritizes the full use of food, producing safe preparations that use peels, stalks, and/or edible shavings of vegetables and fruits as ingredients.",
- 42: ""
+ 42: "The company assesses its food waste during food preparation.",
+ 43: "The company assesses its food waste during food distribution.",
+ 44: "The company discards food waste in the form of composting, anaerobic digestion, maceration, donates to feed pigs, or establishes partnerships with cooperatives that carry out these processes.",
+ 45: "The company trains its employees to avoid food waste during all stages of meal production, from the receipt of food to distribution.",
+ 46: " The company carries out smart ordering systems, inventory monitoring, inventory rotation, and/or other inventory management strategies to avoid food waste.",
+ 47: "The company has goals for reducing/controlling food waste.",
+ 48: "The company recycles or reuses its coffee grounds.",
+ 49: "The company recycles cooking oil and/or transfers the cooking oil used to recycling companies.",
+ 50: "The company has an operational policy that contains a documented strategy on solid (non-food) waste management.",
+ 51: "The company separates recyclable materials, that is, selective collection.",
+ 52: "The company limits packaging and orders products in bulk to avoid waste generation.",
+ 53: "The company does not use disposables and/or adopts strategies to minimize the use of these materials as much as possible, with documented goals.",
+ 54: "The company adopts strategies to reduce the use of plastic in the distribution of meals.",
+ 55: "The company returns packaging boxes for suppliers to reuse and/or provides suppliers with their returnable boxes for the delivery of goods.",
+ 56: "The company returns glass bottles for suppliers to reuse and/or properly dispose of these materials for recycling.",
+ 57: "The company adopts measures to encourage its customers to reduce waste (for example: maintaining glasses, reducing disposable packaging, and eliminating plastics or straws).",
+ 58: "The company uses recycled paper or FSC-certified office paper.",
+ 59: "The company uses lamps, accessories, or furniture made from recovered or recycled materials or those provided with an environmental product declaration to improve the environmental impact.",
+ 60: "The paints used for building are environmentally sustainable.",
+ 61: "The furniture (tables, chairs, and others) of the company is made of durable materials that can be repaired.",
+ 62: "The tablecloths (if any) and/or employees uniforms are made of organic or environmentally sustainable materials.",
+ 63: "The company uses rechargeable batteries for battery-powered devices and equipment, including flashlights, handheld vacuum cleaners, and others.",
+ 64: "Office equipment replaced or purchased is ENERGY STAR or PROCEL certified.",
+ 65: "The company uses only ecological cleaning products.",
+ 66: "The company uses cleaning concentrates and dilution control systems and/or employee training and monitoring for adequate dilution to minimize the use of chemicals.",
+ 67: "The company exclusively uses environmentally sustainable hand cleaners in the bathrooms of customers and employees.",
+ 68: " The team has already undergone environmental training (energy efficiency and water efficiency).",
+ 69: "The team has already undergone environmental training (fundamentals of sustainability).",
+ 70: "The staff has undergone some training on healthy eating and the health impact of what they are producing.",
+ 71: "The company has a strategy regarding donations or support to its community.",
+ 72: "The company donates to food banks or charities to avoid wasting food from products suitable for consumption.",
+ 73: "The company has initiatives to promote healthy eating education for the local community (schools, colleges, community groups).",
+ 74: "The company has a policy in place with the supplier or purchase specification that favors the acquisition of local products for foods such as dairy products, meat, fruits, and vegetables.",
+ 75: "Does the company purchase one or more products from a charitable foundation or a social enterprise that provides social impact? (For example, a product made from leftover food, bread from a social enterprise bakery, etc.)." 
 }
 //https://www.youtube.com/watch?v=KcC8KZ_Ga2M
 var anserArray = {

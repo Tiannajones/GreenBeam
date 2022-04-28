@@ -3,12 +3,13 @@ from users.models import NewUser
 
 #https://www.youtube.com/watch?v=AfYfvjP1hK8 from this video 
 
+#serializer to register users
 class RegisterUserSerializer(serializers.ModelSerializer):
   
   class Meta:
     model = NewUser
     fields = ('email','user_name','password')
-    extra_kwargs = {'password': {'write_only': True}}
+    extra_kwargs = {'password': {'write_only': True}} #makes sure that the password is kept secure
     
   def create(self, validated_data):
     password = validated_data.pop('password',None)

@@ -42,16 +42,20 @@ export const styles= StyleSheet.create({
   },
   text: {
      fontSize: 20,
+     color: '#028090',
       borderColor: 'black',
-      fontFamily: 'OleoScript_400Regular',
+      fontFamily: 'Righteous-Regular',
   },
   input: {
     height: 40,
     width: 200,
     margin: 8,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: '#028090',
     padding: 10,
     backgroundColor: "#f0f3bd",
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Righteous-Regular',
+    fontSize: 20
   },
 });

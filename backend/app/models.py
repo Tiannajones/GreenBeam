@@ -1,10 +1,51 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 
 from django.core.validators import MaxValueValidator
+
+from django.db.models.functions import Radians, Power, Sin, Cos, ATan2, Sqrt, Radians
+from django.db.models import F, FloatField
     
+class RestaurantQuerySet(models.QuerySet):
+    #used in views.py for filtering restaurants to ones nearby user
+    #uses the Haversine equation found here https://stackoverflow.com/questions/17682201/how-to-filter-a-django-model-with-latitude-and-longitude-coordinates-that-fall-w
+    def locations_near_x_within_y_km(self, current_lat, current_long, y_km):
+        dlat = Radians(F('latitude') - current_lat, output_field=FloatField())
+        dlong = Radians(F('longitude') - current_long, output_field=FloatField())
+        a = (Power(Sin(dlat/2.0,output_field=FloatField()), 2.0,output_field=FloatField()) + Cos(Radians(current_lat,output_field=FloatField()),output_field=FloatField()) 
+            * Cos(Radians(F('latitude'),output_field=FloatField()),output_field=FloatField()) * Power(Sin(dlong/2.0,output_field=FloatField()), 2.0,output_field=FloatField())
+            )
+        c = 2.0 * ATan2(Sqrt(a), Sqrt(1.0-a))
+        d = 6371.0 * c #in km
+        d = d * 0.62137 #in miles
+        self.update(distance=d) #updates distance field to display the calculated distance
+        return self.order_by('distance').filter(distance__lt=y_km) #orders the restaurants by distance and only displays the distances less than the y_km parameter
+    
+    #used in views.py for retriving information about a specific restaurant
+    def get_restaurant(self,b_id):
+        return self.filter(business_id=b_id).distinct()
+    
+    #used in views.py for searching the name of a restaurant, the category alias, or the category title
+    def general_search(self,search):
+        nearby = self.locations_near_x_within_y_km(30.6367,-97.6626,10) #all restaurants within a specific distance of the user
+        return nearby.filter(Q(name__contains=search) | Q(categories_title__contains=search) | Q(categories_alias__contains=search)) # Q allows for multiple queries at once and | acts like or
+    
+    #used in views.py for searching all restaurants the contain a category
+    def category_restaurants(self,categorysearch):
+        return self.filter(Q(categories_title__contains=categorysearch) | Q(categories_alias__contains=categorysearch))
+    
+#table that keeps track of sustainability rating, is not deleted with YelpRestaurants every day
+class SustainabilityRating(models.Model):
+    business_id = models.CharField(primary_key=True,max_length=22)
+    all_question_results = models.TextField(max_length=77, default=2222222222222222222222222222222222222222222222222222222222222222222222222222222222)
+    sus_rating = models.CharField(max_length=10,default='NR')
+
+        
+    def __str__(self):
+        return self.business_id
+
 #Create table for the restaurant data or name Restuarants
 class YelpRestaurant(models.Model):
     business_id = models.CharField(primary_key=True,max_length=22)
@@ -22,6 +63,16 @@ class YelpRestaurant(models.Model):
     zip_code = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
     image_url = models.TextField(max_length=200,default='')
     yelp_url = models.TextField(max_length=500,default='')
+    distance = models.DecimalField(max_digits=30, decimal_places=2,default=0.00)
+    
+    categories_alias = models.TextField(max_length=200, default='',blank=True)
+    categories_title = models.TextField(max_length=200, default='',blank=True)
+    
+    #sus_rating = models.ForeignKey(SustainabilityRating,on_delete=models.PROTECT,default="NR")
+    
+    objects = RestaurantQuerySet.as_manager() #used for filtering 
+    
+
     
 #Create table for the categories 
 class YelpCategories(models.Model):
@@ -115,15 +166,4 @@ class YelpCategories(models.Model):
     wineries = models.BooleanField(default=False)
     wine_tasting_room = models.BooleanField(default=False)
     zapiekanka = models.BooleanField(default=False)
-    
-class SustainabilityRating(models.Model):
-    business_id = models.CharField(primary_key=True,max_length=22)
-    all_question_results = models.DecimalField(max_digits=76, decimal_places=0)
-    sus_rating = models.DecimalField(max_digits=3,decimal_places=2)
-
-        
-    def __str__(self):
-        return self.business_id
-    
-    
     

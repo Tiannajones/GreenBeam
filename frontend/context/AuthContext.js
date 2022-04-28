@@ -1,4 +1,5 @@
 //AuthContext.js
+//from https://blog.logrocket.com/react-native-jwt-authentication-using-axios-interceptors/ 
 import React, {createContext, useState} from 'react';
 import * as Keychain from 'react-native-keychain';
 
