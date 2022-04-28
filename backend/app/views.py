@@ -33,7 +33,7 @@ class SoloRestaurantViewSet(viewsets.ModelViewSet):
         return queryset
  
 #returns restaurants that match the name searched     
-class SearchNameViewSet(viewsets.ModelViewSet):
+class GeneralSearchViewSet(viewsets.ModelViewSet):
     serializer_class = YelpRestaurantSerializer
     def get_queryset(self):
         generalsearch = self.request.query_params.get('search') #gets search parameter passed in the request
@@ -62,8 +62,9 @@ def add_all_restaurants_to_model(request):
 @api_view()
 @permission_classes([AllowAny])
 def delete_all_restaurants_in_model(request):
-  daily.deleteData() #calls the deleteData method from daily.py
-  return Response({'message':'we received your request'})
+  if request.method == 'GET':
+    daily.deleteData() #calls the deleteData method from daily.py
+    return Response({'message':'we received your request'})
  
 
 #view that will allow restaurant owner to PUT/POST info over sustainability

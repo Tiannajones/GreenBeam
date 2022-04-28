@@ -6,7 +6,7 @@ router = routers.DefaultRouter()
 router.register(r'api/allrestaurants', views.YelpRestaurantViewSet) #displays the YelpRestaurantViewSet
 router.register(r'api/restaurantlist',views.RestaurantListViewSet, basename='RestaurantList') #displays the RestaurantListViewSet
 router.register(r'api/solorestaurant',views.SoloRestaurantViewSet, basename='SoloRestaurant') #displays the SoloRestaurantViewSet
-router.register(r'api/searchname',views.SearchNameViewSet, basename='SearchName') #displays the SearchNameViewSet
+router.register(r'api/searchname',views.GeneralSearchViewSet, basename='SearchName') #displays the SearchNameViewSet
 router.register(r'api/searchcategory',views.CategoryViewSet, basename='SearchCategory') #displays the CategoryViewSet
 
 urlpatterns = [
