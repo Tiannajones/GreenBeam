@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 class CustomAccountManager(BaseUserManager):
   
+  #creates a superuser
   def create_superuser(self, email, user_name, first_name, password, **other_fields):
     other_fields.setdefault('is_staff', True)
     other_fields.setdefault('is_superuser', True)
@@ -19,6 +20,7 @@ class CustomAccountManager(BaseUserManager):
     
     return self.create_user(email,user_name, first_name, password, **other_fields)
     
+  #creates a regular user (requires email, user_name, and first_name)
   def create_user(self, email, user_name, first_name, password, **other_fields):
     if not email:
       raise ValueError('YOu must provide an email address.')
@@ -28,6 +30,7 @@ class CustomAccountManager(BaseUserManager):
     user.save()
     return user
   
+#creates a new user model
 class NewUser(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField(_('email address'), unique=True)
   user_name = models.CharField(max_length=150, unique=True)
@@ -35,8 +38,8 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
   start_date = models.DateTimeField(default=timezone.now)
   is_staff = models.BooleanField(default=False)
   is_active = models.BooleanField(default=True) #if we wanted to verify email then would wait for them to verify it to set this to True
-  is_owner = models.BooleanField(default=False)
-  owner_bid = models.CharField(max_length=22,default='')
+  is_owner = models.BooleanField(default=False) #keeps track if this user is a restaurant owner/manager
+  owner_bid = models.CharField(max_length=22,default='') #keeps track of the restaurant id that the owner is connected to
   
   objects = CustomAccountManager()
   

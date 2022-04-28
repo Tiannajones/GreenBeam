@@ -3,6 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 
 from .models import SustainabilityRating, YelpCategories, YelpRestaurant
 
-admin.site.register(YelpRestaurant)
-admin.site.register(YelpCategories)
-admin.site.register(SustainabilityRating)
+admin.site.register(YelpRestaurant) #adds YelpRestaurant model to admin page
+admin.site.register(YelpCategories) #adds YelpCategories model to admin page
+admin.site.register(SustainabilityRating) #adds Sustianability model to admin page

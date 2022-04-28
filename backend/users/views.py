@@ -5,6 +5,7 @@ from .serializers import RegisterUserSerializer
 from rest_framework.permissions import AllowAny
 
 #https://www.youtube.com/watch?v=AfYfvjP1hK8 from this video
+#view that allows user to register
 class CustomUserCreate(APIView):
   permission_classes = [AllowAny]
   
